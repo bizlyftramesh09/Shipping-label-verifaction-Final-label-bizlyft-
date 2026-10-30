@@ -1,0 +1,1152 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Label Verify Desk</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Familjen+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap">
+<style>
+/* Layout: packing-desk console — dark "dispatch" band with the AI checker avatar on top; left rail (files + filters), right work area. Cards echo 4x6 thermal labels. */
+:root{
+  --bg:#eef0ec; --paper:#ffffff; --paper2:#f7f8f5; --ink:#14171a; --muted:#5b6168; --line:#dcdfd8; --soft:#e9ece6;
+  --accent:#e2780f; --accent-ink:#ffffff; --accent-soft:#fcebd8;
+  --ok:#16824f; --ok-soft:#dcf2e5; --warn:#a35f00; --warn-soft:#fbefd4; --bad:#c62830; --bad-soft:#fbe0e1;
+  --hero:#15191d; --hero2:#1f252b; --hero-ink:#f1f3ef; --hero-muted:#a3abb3; --hero-line:#2f363d;
+  --bot-body:#f1f3ef; --bot-visor:#1b2a33; --bot-eye:#5fe3ff;
+  --b-ss:#c2410c; --b-lwm:#2563a8; --b-td:#7a3e9d; --b-ds:#0f7c6b; --b-x:#6b7280;
+  --c-ekart:#2f5bd3; --c-bluedart:#1d3f8f; --c-delhivery:#d23a2f; --c-xb:#e0a100; --c-amz:#1f2a36; --c-dtdc:#c1272d; --c-sf:#0e8a5f; --c-ecom:#7a2fb5; --c-ip:#b5442a; --c-x:#6b7280;
+  --shadow:0 1px 0 rgba(20,23,26,.04),0 6px 18px -10px rgba(20,23,26,.25);
+  --f-ui:"Familjen Grotesk",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-disp:"Bricolage Grotesque","Familjen Grotesk",ui-sans-serif,system-ui,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --r:12px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1214; --paper:#181c1f; --paper2:#1d2125; --ink:#eceee9; --muted:#9aa1a8; --line:#2b3035; --soft:#22272b;
+  --accent:#f39339; --accent-ink:#1b1206; --accent-soft:#3a2614;
+  --ok:#4cc38a; --ok-soft:#163525; --warn:#f0b54a; --warn-soft:#382a0f; --bad:#f2707a; --bad-soft:#3b191c;
+  --hero:#090b0d; --hero2:#14181b; --hero-ink:#f1f3ef; --hero-muted:#9aa2aa; --hero-line:#262c31;
+  --b-ss:#f08a4b; --b-lwm:#6ea8ef; --b-td:#c18de0; --b-ds:#4fc9b4; --b-x:#9ca3af;
+  --c-ekart:#5b82f0; --c-bluedart:#4f74d1; --c-delhivery:#ef6056; --c-xb:#e8b21f; --c-amz:#4b5a6b; --c-dtdc:#e0525a; --c-sf:#35b685; --c-ecom:#a565de; --c-ip:#d8694e; --c-x:#8b939c;
+  --shadow:0 1px 0 rgba(0,0,0,.3),0 8px 22px -12px rgba(0,0,0,.7); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1214; --paper:#181c1f; --paper2:#1d2125; --ink:#eceee9; --muted:#9aa1a8; --line:#2b3035; --soft:#22272b;
+  --accent:#f39339; --accent-ink:#1b1206; --accent-soft:#3a2614;
+  --ok:#4cc38a; --ok-soft:#163525; --warn:#f0b54a; --warn-soft:#382a0f; --bad:#f2707a; --bad-soft:#3b191c;
+  --hero:#090b0d; --hero2:#14181b; --hero-ink:#f1f3ef; --hero-muted:#9aa2aa; --hero-line:#262c31;
+  --b-ss:#f08a4b; --b-lwm:#6ea8ef; --b-td:#c18de0; --b-ds:#4fc9b4; --b-x:#9ca3af;
+  --c-ekart:#5b82f0; --c-bluedart:#4f74d1; --c-delhivery:#ef6056; --c-xb:#e8b21f; --c-amz:#4b5a6b; --c-dtdc:#e0525a; --c-sf:#35b685; --c-ecom:#a565de; --c-ip:#d8694e; --c-x:#8b939c;
+  --shadow:0 1px 0 rgba(0,0,0,.3),0 8px 22px -12px rgba(0,0,0,.7); color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-ui);font-size:14px;line-height:1.45}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{max-width:1380px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:16px 56px}
+
+/* ---------- hero / AI avatar ---------- */
+.hero{background:radial-gradient(120% 140% at 0% 0%,var(--hero2),var(--hero) 60%);color:var(--hero-ink);border-radius:18px;padding:18px 20px;display:grid;grid-template-columns:auto minmax(0,1fr) minmax(260px,340px);gap:20px;align-items:center;margin-bottom:16px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:auto -40px -60px auto;width:260px;height:160px;background:repeating-linear-gradient(90deg,rgba(255,255,255,.05) 0 2px,transparent 2px 5px,rgba(255,255,255,.05) 5px 6px,transparent 6px 10px);transform:rotate(-8deg);pointer-events:none}
+@media (max-width:980px){.hero{grid-template-columns:auto minmax(0,1fr)}.hero .dropz{grid-column:1/-1}}
+@media (max-width:520px){.hero{grid-template-columns:minmax(0,1fr)}.botwrap{justify-self:start}}
+.botwrap{width:96px;height:96px;border-radius:24px;background:linear-gradient(160deg,#2a333b,#151a1e);display:grid;place-items:center;position:relative;box-shadow:inset 0 0 0 1px var(--hero-line)}
+.botwrap.busy{box-shadow:inset 0 0 0 1px var(--accent),0 0 0 6px rgba(226,120,15,.18)}
+.botwrap.ok{box-shadow:inset 0 0 0 1px var(--ok),0 0 0 6px rgba(22,130,79,.2)}
+.botwrap.alert{box-shadow:inset 0 0 0 1px var(--bad),0 0 0 6px rgba(198,40,48,.22)}
+.bot{width:76px;height:76px;display:block;overflow:visible}
+.bot .eye{transform-box:fill-box;transform-origin:center;animation:blink 4.5s infinite}
+.bot .beam{opacity:0}
+.busy .bot .beam{opacity:1;animation:beam 1.1s ease-in-out infinite alternate}
+.busy .bot .eye{animation:look 1.1s ease-in-out infinite alternate}
+.bot .ant{animation:pulse 2s ease-in-out infinite}
+.busy .bot .ant{animation-duration:.5s}
+@keyframes blink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
+@keyframes beam{from{transform:translateY(0)}to{transform:translateY(17px)}}
+@keyframes look{from{transform:translateX(-2px)}to{transform:translateX(2px)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.hero-text{min-width:0;display:flex;flex-direction:column;gap:6px;position:relative;z-index:1}
+.hero .who{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--hero-muted);font-weight:600;display:flex;gap:8px;align-items:center}
+.hero .who .live{width:7px;height:7px;border-radius:50%;background:var(--ok)}
+.hero h1{font-family:var(--f-disp);font-weight:800;font-size:clamp(22px,2.6vw,30px);line-height:1.08;margin:0;letter-spacing:-.02em;text-wrap:balance}
+.hero .say{color:var(--hero-muted);font-size:14px;max-width:62ch}
+.hero .say b{color:var(--hero-ink)}
+.insights{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.ins{font-size:12px;border:1px solid var(--hero-line);background:rgba(255,255,255,.04);border-radius:999px;padding:4px 10px;color:var(--hero-ink)}
+.ins.bad{border-color:rgba(242,112,122,.5);color:#ffb3b8}
+.ins.ok{border-color:rgba(76,195,138,.5);color:#9fe6c2}
+.prog{height:6px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden;margin-top:4px;max-width:420px}
+.prog i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.dropz{border:1.5px dashed #3d464e;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:8px;align-items:flex-start;background:rgba(255,255,255,.03);position:relative;z-index:1;transition:border-color .15s,background .15s}
+.dropz.over{border-color:var(--accent);background:rgba(226,120,15,.12)}
+.dropz b{font-size:15px}
+.dropz small{color:var(--hero-muted)}
+.dropz .row{display:flex;gap:8px;flex-wrap:wrap}
+
+/* ---------- buttons ---------- */
+.btn{border:1px solid var(--line);background:var(--paper);border-radius:9px;padding:8px 13px;font-weight:600;display:inline-flex;align-items:center;gap:7px;white-space:nowrap;transition:transform .08s,border-color .15s,background .15s}
+.btn:hover{border-color:var(--ink)}
+.btn:active{transform:translateY(1px)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{filter:brightness(1.06)}
+.btn.dark{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.btn.ghost{background:transparent;border-color:var(--hero-line);color:var(--hero-ink)}
+.btn.ghost:hover{border-color:var(--hero-ink)}
+.btn.danger{background:var(--bad);border-color:var(--bad);color:#fff}
+.btn.sm{padding:5px 10px;font-size:12.5px;border-radius:8px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn svg{width:15px;height:15px;flex:none}
+
+.grid{display:grid;grid-template-columns:290px minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:960px){.grid{grid-template-columns:minmax(0,1fr)}}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:14px;box-shadow:var(--shadow)}
+.rail{display:flex;flex-direction:column;gap:14px;position:sticky;top:calc(12px + env(safe-area-inset-top,0px))}
+@media (max-width:960px){.rail{position:static}}
+.eyebrow{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:0 0 10px;display:flex;justify-content:space-between;gap:8px}
+.files{display:flex;flex-direction:column;gap:6px}
+.file{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:0 8px;align-items:center;font-size:12.5px;padding:7px 8px;border-radius:9px;background:var(--paper2);border:1px solid var(--line)}
+.file .ic{grid-row:1/3;width:22px;height:26px;border-radius:3px;background:var(--soft);border:1px solid var(--line);position:relative}
+.file .ic::after{content:"PDF";position:absolute;bottom:2px;left:0;right:0;text-align:center;font-size:6.5px;font-weight:700;color:var(--bad)}
+.file .n{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
+.file .c{color:var(--muted);grid-column:2;grid-row:2;font-size:11.5px}
+.file .x{grid-column:3;grid-row:1/3}
+.x{border:0;background:none;color:var(--muted);padding:2px 6px;border-radius:6px}
+.x:hover{background:var(--soft);color:var(--ink)}
+
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:4px 10px 4px 5px;font-size:12.5px;display:inline-flex;gap:6px;align-items:center}
+.chip.plain{padding-left:10px}
+.chip .k{font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chip[aria-pressed="true"] .k{color:inherit;opacity:.7}
+.bsw{width:9px;height:9px;border-radius:3px;display:inline-block;flex:none}
+.fgroup{display:flex;flex-direction:column;gap:7px}
+.fgroup+.fgroup{margin-top:14px}
+.flabel{font-size:12px;color:var(--muted);font-weight:600}
+.search{width:100%;border:1px solid var(--line);background:var(--paper2);border-radius:9px;padding:9px 11px}
+
+/* courier badge (generic monogram, not a brand logo) */
+.cb{--c:var(--c-x);display:inline-grid;place-items:center;min-width:22px;height:22px;padding:0 5px;border-radius:6px;background:var(--c);color:#fff;font:700 9.5px/1 var(--f-mono);letter-spacing:.02em;flex:none}
+.cb.lg{min-width:34px;height:34px;border-radius:9px;font-size:12px}
+.cpill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;background:var(--paper2);border:1px solid var(--line);border-radius:999px;padding:2px 9px 2px 3px}
+.cpill .k{font-family:var(--f-mono);color:var(--muted);font-weight:600}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-bottom:12px}
+@media (max-width:1150px){.stats{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:520px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.stat{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;display:flex;flex-direction:column;gap:3px;text-align:left;box-shadow:var(--shadow);position:relative;overflow:hidden}
+button.stat:hover{border-color:var(--ink)}
+.stat .v{font-family:var(--f-disp);font-size:30px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.stat .l{font-size:12.5px;color:var(--muted);font-weight:600}
+.stat::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--line)}
+.stat.ok::before{background:var(--ok)} .stat.bad::before{background:var(--bad)} .stat.warn::before{background:var(--warn)} .stat.acc::before{background:var(--accent)}
+.stat.bad .v{color:var(--bad)}
+.splitbar{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;margin-bottom:14px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px}
+.bar{display:flex;height:12px;border-radius:99px;overflow:hidden;background:var(--soft)}
+.bar i{display:block;height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px}
+
+.tabs{display:flex;gap:2px;margin-bottom:14px;overflow-x:auto;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:4px;box-shadow:var(--shadow)}
+.tab{border:0;background:none;padding:8px 12px;font-weight:600;color:var(--muted);border-radius:9px;white-space:nowrap;display:inline-flex;gap:6px;align-items:center}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{color:var(--bg);background:var(--ink)}
+.tab .cnt{font-family:var(--f-mono);font-size:11px;background:var(--soft);color:var(--ink);border-radius:999px;padding:1px 7px}
+.tab .cnt.bad{background:var(--bad);color:#fff}
+
+/* download center */
+.dlc{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;margin-bottom:14px;display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;box-shadow:var(--shadow)}
+.dlc .grp{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.dlc .sp{flex:1}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:9px;padding:2px;background:var(--paper2)}
+.seg button{border:0;background:none;padding:5px 10px;border-radius:7px;font-size:12.5px;font-weight:600;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--paper);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.toggle{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--muted)}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.toolbar .sp{flex:1}
+.toolbar .btn,.dlc .btn{white-space:normal;text-align:left}
+
+/* product cards */
+.groups{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(330px,100%),1fr));gap:12px}
+.gcard{background:var(--paper);border:1px solid var(--line);border-radius:14px;display:flex;flex-direction:column;box-shadow:var(--shadow);overflow:hidden;transition:border-color .15s,transform .15s}
+.gcard:hover{border-color:var(--ink)}
+.gcard.has-bad{border-color:var(--bad)}
+.gtop{display:grid;grid-template-columns:104px minmax(0,1fr);gap:14px;padding:14px}
+.stack{position:relative;width:104px;height:134px}
+.stack .thumb{position:absolute;top:0;left:8px;width:84px;height:126px}
+.stack .thumb:nth-child(2){transform:rotate(-6deg) translate(-8px,4px);opacity:.85}
+.stack .thumb:nth-child(3){transform:rotate(6deg) translate(10px,4px);opacity:.85}
+.stack .thumb:first-child{z-index:2}
+.thumb{background:#fff;border-radius:4px;overflow:hidden;border:1px solid var(--line);box-shadow:0 4px 10px -6px rgba(0,0,0,.4)}
+.thumb img{width:100%;height:100%;object-fit:contain;background:#fff;display:block}
+.thumb .ph{position:absolute;inset:0;display:grid;place-items:center;font-size:10px;color:#7a8087;text-align:center;padding:6px;background:repeating-linear-gradient(0deg,#fff 0 6px,#f1f2ef 6px 7px)}
+.stack .count{position:absolute;right:0;bottom:0;z-index:3;background:var(--ink);color:var(--bg);font-family:var(--f-disp);font-weight:800;font-size:15px;border-radius:999px;min-width:32px;height:32px;padding:0 8px;display:grid;place-items:center;border:3px solid var(--paper)}
+.gbody{display:flex;flex-direction:column;gap:6px;min-width:0}
+.brand{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;display:flex;align-items:center;gap:6px}
+.gtitle{font-family:var(--f-disp);font-weight:800;font-size:18px;line-height:1.15;letter-spacing:-.01em;text-wrap:balance}
+.skuline{font-family:var(--f-mono);font-size:11.5px;color:var(--muted);word-break:break-all}
+.gmeta{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.pill{white-space:nowrap;font-size:11.5px;border-radius:999px;padding:2px 9px;background:var(--soft);display:inline-flex;gap:4px;align-items:center;font-weight:600}
+.pill.bad{background:var(--bad-soft);color:var(--bad)} .pill.warn{background:var(--warn-soft);color:var(--warn)} .pill.ok{background:var(--ok-soft);color:var(--ok)}
+.pill.acc{background:var(--accent-soft);color:var(--accent)}
+.gfoot{border-top:1px dashed var(--line);padding:10px 14px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:var(--paper2)}
+.gfoot .sp{flex:1}
+.combo{display:flex;flex-direction:column;gap:4px;font-size:13.5px;font-weight:600}
+.combo div{display:flex;gap:8px;align-items:baseline}
+.combo .q{font-family:var(--f-mono);font-weight:700;color:var(--accent);min-width:26px}
+
+/* table */
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--paper);box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700;background:var(--paper2)}
+tr:last-child td{border-bottom:0}
+td.num{text-align:right;font-family:var(--f-mono)}
+tr.clickable{cursor:pointer} tr.clickable:hover td{background:var(--paper2)}
+tr.badrow td:first-child{box-shadow:inset 3px 0 0 var(--bad)}
+.flag{display:block;font-size:12px;margin-top:3px}
+.flag.bad{color:var(--bad)} .flag.warn{color:var(--warn)}
+td input,td select{width:100%;border:1px solid var(--line);background:var(--paper2);border-radius:7px;padding:5px 7px;font-size:12.5px}
+.rowbtns{display:flex;gap:6px;flex-wrap:wrap}
+
+/* review hero */
+.alertbox{display:flex;gap:14px;align-items:center;flex-wrap:wrap;padding:14px;border-radius:var(--r);background:var(--bad-soft);border:1px solid var(--bad);margin-bottom:12px}
+.alertbox.okbox{background:var(--ok-soft);border-color:var(--ok)}
+.alertbox .t{flex:1;min-width:220px}
+.alertbox b{display:block;font-size:15px}
+
+/* empty */
+.empty{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:26px;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:28px;box-shadow:var(--shadow)}
+@media (max-width:760px){.empty{grid-template-columns:minmax(0,1fr)}}
+.empty h2{margin:0 0 8px;font-family:var(--f-disp);font-weight:800;font-size:24px;letter-spacing:-.02em;text-wrap:balance}
+.empty p{color:var(--muted);margin:0 0 14px;max-width:60ch}
+.flow{display:flex;flex-direction:column;gap:12px;margin:0;padding:0;list-style:none;counter-reset:s}
+.flow li{display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px;counter-increment:s}
+.flow li::before{content:counter(s);width:26px;height:26px;border-radius:8px;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-family:var(--f-mono);font-size:12px;font-weight:700}
+.flow b{display:block}
+.flow span{color:var(--muted);font-size:13px}
+.formats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.fmt{border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12.5px;background:var(--paper2)}
+.fmt b{display:block;font-size:13px}
+.fmt span{color:var(--muted)}
+.mock{position:relative;border:1px solid var(--line);border-radius:10px;background:#fff;height:150px;overflow:hidden;margin-bottom:12px}
+.mock .ln{position:absolute;left:14px;right:14px;height:7px;border-radius:3px;background:#e4e6e1}
+.mock .bc{position:absolute;left:14px;top:14px;width:120px;height:34px;background:repeating-linear-gradient(90deg,#222 0 2px,#fff 2px 4px,#222 4px 5px,#fff 5px 8px)}
+.mock .laser{position:absolute;left:0;right:0;height:2px;background:var(--accent);box-shadow:0 0 12px 2px var(--accent);animation:laser 2.2s ease-in-out infinite alternate}
+@keyframes laser{from{top:8%}to{top:90%}}
+
+/* drawer */
+.drawer{position:fixed;inset:0;z-index:50;display:flex;justify-content:flex-end;background:rgba(8,10,12,.5)}
+.drawer .in{width:min(580px,100%);height:100%;background:var(--paper);padding:calc(18px + env(safe-area-inset-top,0px)) max(18px,env(safe-area-inset-right,0px)) calc(18px + env(safe-area-inset-bottom,0px)) 18px;overflow:auto;display:flex;flex-direction:column;gap:12px}
+.drawer h3{margin:0;font-family:var(--f-disp);font-weight:800;font-size:20px;letter-spacing:-.01em}
+.pages{display:flex;gap:10px;flex-wrap:wrap}
+.pages img{width:min(250px,100%);border:1px solid var(--line);border-radius:6px;background:#fff}
+.kv{display:grid;grid-template-columns:120px minmax(0,1fr);gap:5px 10px;font-size:13px}
+.kv dt{color:var(--muted)} .kv dd{margin:0;word-break:break-word}
+
+/* scan */
+.scanbox{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:14px}
+@media (max-width:960px){.scanbox{grid-template-columns:minmax(0,1fr)}}
+.scanin{width:100%;font-family:var(--f-mono);font-size:22px;padding:14px 16px;border-radius:12px;border:2px solid var(--ink);background:var(--paper)}
+.verdict{border-radius:16px;padding:20px;min-height:240px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;border:2px solid var(--line);background:var(--paper);transition:background .2s,border-color .2s;align-items:start}
+@media (max-width:520px){.verdict{grid-template-columns:minmax(0,1fr)}}
+.verdict.ok{background:var(--ok-soft);border-color:var(--ok)}
+.verdict.bad{background:var(--bad-soft);border-color:var(--bad)}
+.verdict.wait{border-color:var(--accent)}
+.verdict .vbody{display:flex;flex-direction:column;gap:10px;min-width:0}
+.verdict .big{font-family:var(--f-disp);font-size:28px;font-weight:800;letter-spacing:-.02em;line-height:1.1}
+.need{display:flex;flex-direction:column;gap:8px}
+.need div{display:flex;justify-content:space-between;gap:10px;padding:10px 12px;border-radius:9px;background:var(--paper);border:1px solid var(--line);font-size:15px}
+.need div.done{border-color:var(--ok);color:var(--ok)}
+.need .q{font-family:var(--f-mono);font-weight:700}
+.log{font-size:12.5px;display:flex;flex-direction:column;gap:5px;max-height:380px;overflow:auto}
+.log div{display:flex;gap:8px}
+.log .t{font-family:var(--f-mono);color:var(--muted)}
+.note{font-size:12.5px;color:var(--muted)}
+.picktotal{font-family:var(--f-mono);font-weight:700}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(18px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-weight:600;z-index:60;max-width:calc(100% - 32px);box-shadow:0 10px 30px -10px rgba(0,0,0,.5)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+<div class="wrap">
+  <section class="hero" id="hero" aria-live="polite"></section>
+
+  <div class="grid">
+    <aside class="rail">
+      <section class="panel">
+        <p class="eyebrow"><span>Files</span><span id="fileCount"></span></p>
+        <div class="files" id="fileList"></div>
+        <input type="file" id="fileIn" accept="application/pdf,.pdf" multiple hidden>
+      </section>
+      <section class="panel" id="filterPanel">
+        <p class="eyebrow"><span>Filter</span><button class="x" id="clearF" type="button">Reset</button></p>
+        <input class="search" id="q" type="search" placeholder="SKU, product, AWB, order ID">
+        <div class="fgroup" style="margin-top:12px"><span class="flabel">Brand</span><div class="chips" id="fBrand"></div></div>
+        <div class="fgroup"><span class="flabel">Courier</span><div class="chips" id="fCourier"></div></div>
+        <div class="fgroup"><span class="flabel">Platform</span><div class="chips" id="fPlatform"></div></div>
+        <div class="fgroup"><span class="flabel">Payment</span><div class="chips" id="fPay"></div></div>
+      </section>
+    </aside>
+
+    <main style="min-width:0">
+      <div class="stats" id="stats"></div>
+      <div id="split"></div>
+      <div class="tabs" role="tablist" id="tabs"></div>
+      <div id="view"></div>
+    </main>
+  </div>
+</div>
+<div id="drawer"></div>
+<div id="toastHost"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script>
+/* ===== LABEL PARSER (shared by page + node tests) ===== */
+function buildLines(items){
+  const its=items.filter(i=>i.s.trim()).slice().sort((a,b)=>a.y-b.y||a.x-b.x);
+  const lines=[];
+  for(const it of its){
+    let L=lines.find(l=>Math.abs(l.y-it.y)<2.2);
+    if(!L){L={y:it.y,items:[]};lines.push(L)}
+    L.items.push(it);
+  }
+  lines.sort((a,b)=>a.y-b.y);
+  return lines.map(l=>{l.items.sort((a,b)=>a.x-b.x);
+    let t='',end=null;
+    for(const it of l.items){ if(end!==null){t+=(it.x-end>1.5?' ':'')} t+=it.s; end=it.x+(it.w||it.s.length*4);}
+    return {y:l.y,text:t.replace(/\s+/g,' ').trim(),items:l.items}});
+}
+const COURIERS=[['ekart','Ekart'],['e-kart','Ekart'],['bluedart','BlueDart'],['blue dart','BlueDart'],['delhivery','Delhivery'],['xpressbees','Xpressbees'],['dtdc','DTDC'],['shadowfax','Shadowfax'],['ecom express','Ecom Express'],['amazon shipping','Amazon Shipping'],['india post','India Post'],['speed post','India Post'],['ekart logistics','Ekart']];
+function findCourier(s){s=s.toLowerCase();for(const[k,v]of COURIERS){if(s.includes(k))return v}return ''}
+
+function parseRapid(items,lines,all){
+  const r={format:'rapid',platform:/shiprocket/i.test(all)?'Shiprocket':'RapidShyp'};
+  r.awb=(all.match(/AWB\s*:\s*([A-Z0-9]+)/)||[])[1]||'';
+  r.orderId=(all.match(/Order ID#\s*:\s*(\S+)/)||[])[1]||'';
+  r.payment=/\bCOD\b/.test(all)?'COD':(/PREPAID/i.test(all)?'Prepaid':'');
+  const cv=all.match(/Collectable Value:\s*₹\s*([\d,.]+)/);r.cod=cv?+cv[1].replace(/,/g,''):0;
+  // courier: big text between phone and AWB
+  const awbIt=items.find(i=>/^AWB\s*:/.test(i.s));
+  let cand=items.filter(i=>awbIt&&i.y<awbIt.y&&i.y>60&&i.x>100&&!/AWB|Routing|₹|Collectable/.test(i.s));
+  r.courier=findCourier(cand.map(i=>i.s).join(' '))||(cand[0]?cand[0].s.trim():'')||findCourier(all);
+  const sb=lines.findIndex(l=>/^Shipped By/.test(l.text));
+  r.shippedBy=sb>=0&&lines[sb+1]?lines[sb+1].items.filter(i=>i.x<140).map(i=>i.s).join(' ').trim():'';
+  // table
+  const hName=items.find(i=>i.s.trim()==='Item Name'),hSku=items.find(i=>i.s.trim()==='SKU Code'),hQty=items.find(i=>i.s.trim()==='Qty'),hAmt=items.find(i=>/^Amount/.test(i.s.trim()));
+  const tot=items.find(i=>i.s.trim()==='Total'&&hName&&i.y>hName.y);
+  r.items=[];
+  if(hName&&hSku&&hQty){
+    const top=hName.y+2,bot=tot?tot.y-2:hName.y+200;
+    const inT=items.filter(i=>i.y>top&&i.y<bot&&i.s.trim());
+    const qtys=inT.filter(i=>Math.abs(i.x-hQty.x)<10&&/^\d+$/.test(i.s.trim()));
+    for(const q of qtys){
+      const sku=inT.filter(i=>i.x>=hSku.x-6&&i.x<hQty.x-4&&Math.abs(i.y-q.y)<3).map(i=>i.s).join('').trim();
+      const amt=hAmt?inT.filter(i=>i.x>=hAmt.x-6&&Math.abs(i.y-q.y)<3).map(i=>i.s).join('').trim():'';
+      r.items.push({sku,qty:+q.s.trim(),amount:+(amt.replace(/[₹,\s]/g,'')||0),name:'',_y:q.y});
+    }
+    const names=inT.filter(i=>i.x<hSku.x-6);
+    for(const n of names){let best=null,bd=1e9;for(const it of r.items){const d=Math.abs(it._y-n.y);if(d<bd){bd=d;best=it}}
+      if(best)(best._n=best._n||[]).push(n)}
+    for(const it of r.items){it.name=(it._n||[]).sort((a,b)=>a.y-b.y).map(n=>n.s.trim()).reduce((acc,p)=>!acc?p:(/[a-z]$/.test(acc)&&/^[a-z]/.test(p)?acc+p:acc+' '+p),'').replace(/\s+/g,' ').trim();delete it._n;delete it._y}
+  }
+  return r;
+}
+
+function parseFlipkart(items,lines,all){
+  const r={format:'flipkart',platform:'Flipkart'};
+  r.awb=(all.match(/AWB No\.?[ \t]*([A-Z0-9]{8,})/)||[])[1]||((lines.find(l=>/^[A-Z]{2,6}\d{8,}$/.test(l.text)&&!/^OD\d/.test(l.text))||{}).text)||'';
+  r.orderId=(all.match(/\b(OD\d{12,})\b/)||[])[1]||'';
+  r.payment=/\bCOD\b/.test(all)?'COD':(/PREPAID/.test(all)?'Prepaid':'');
+  r.courier=findCourier(all.split('Ordered through')[0])||'Ekart';
+  r.shippedBy='';r.items=[];
+  const hi=lines.findIndex(l=>/SKU ID\s*\|\s*Description/.test(l.text));
+  if(hi>=0){
+    const hdr=lines[hi];const qtyIt=hdr.items.find(i=>/QTY/.test(i.s));const qx=qtyIt?qtyIt.x:1e9;
+    let cur=null;
+    for(let k=hi+1;k<lines.length;k++){
+      const L=lines[k];if(L.y-hdr.y>140)break;
+      if(/^[A-Z]{2,5}[A-Z0-9]{6,}$/.test(L.text)||/Not for resale|Printed at/.test(L.text))break;
+      const left=L.items.filter(i=>i.x<qx-15).map(i=>i.s).join(' ').replace(/\s+/g,' ').trim();
+      const q=L.items.filter(i=>i.x>=qx-15).map(i=>i.s).join('').trim();
+      const m=left.match(/^(\d+)\s+(\S+)\s*\|\s*(.*)$/);
+      if(m){cur={sku:m[2],name:m[3],qty:+(q||1),amount:0};r.items.push(cur)}
+      else if(cur&&left&&!/^[A-Z0-9]{2,4}$/.test(left)){ if(cur.name.length<120) cur.name+=' '+left }
+      else if(!left&&!q&&cur){/*blank*/}
+    }
+  }
+  return r;
+}
+
+function parseAmazonInvoice(items,lines,all){
+  const r={format:'amazon',platform:'Amazon',courier:'Amazon Shipping',shippedBy:'',awb:'',payment:'',items:[]};
+  r.orderId=(all.match(/Order Number:\s*([\d-]+)/)||[])[1]||'';
+  const hdr=items.find(i=>/^Description/.test(i.s.trim()));
+  const unit=items.find(i=>/^Unit/.test(i.s.trim()));
+  const totL=lines.find(l=>/^TOTAL:/.test(l.text));
+  if(!hdr)return r;
+  const cut=unit?unit.x-8:hdr.x+300;
+  const bot=totL?totL.y:1e9;
+  const sl=items.filter(i=>i.x<hdr.x-2&&/^\d{1,2}$/.test(i.s.trim())&&i.y>hdr.y+6&&i.y<bot).sort((a,b)=>a.y-b.y);
+  const rowsTxt=sl.map(()=>({t:''}));
+  const desc=items.filter(i=>i.x>=hdr.x-2&&i.x<cut&&i.y>hdr.y+6&&i.y<bot&&i.s.trim()).sort((a,b)=>a.y-b.y||a.x-b.x);
+  for(const d of desc){let k=-1;for(let j=0;j<sl.length;j++){if(sl[j].y<=d.y+4)k=j}
+    if(k<0&&sl.length)k=0; if(k>=0)rowsTxt[k].t+=' '+d.s}
+  rowsTxt.forEach(r=>r.t=r.t.replace(/\s+/g,' ').trim());
+  const priceRows=lines.filter(l=>/₹[\d,.]+\s+\d+\s+₹[\d,.]+/.test(l.text));
+  rowsTxt.forEach((row,i)=>{
+    const m=row.t.match(/([A-Z0-9]{10})\s*\(\s*([^)]+?)\s*\)/);
+    let qty=1,amt=0;const pr=priceRows[i];
+    if(pr){const mm=pr.text.match(/₹([\d,.]+)\s+(\d+)\s+₹([\d,.]+)/);qty=+mm[2];const t=pr.text.match(/₹([\d,.]+)\s*$/);amt=t?+t[1].replace(/,/g,''):0}
+    const name=(m?row.t.slice(0,row.t.indexOf(m[1])):row.t).replace(/HSN:?\s*\d+/,'').replace(/[|\s]+$/,'').trim();
+    r.items.push({sku:m?m[2].replace(/\s+/g,''):'',asin:m?m[1]:'',qty,amount:amt,name:name.slice(0,110)});
+  });
+  return r;
+}
+
+function classifyPage(items){
+  const lines=buildLines(items);const all=lines.map(l=>l.text).join('\n');
+  if(!items.some(i=>i.s.trim()))return {kind:'image'};
+  if(/Deliver To:/.test(all)&&/Item Name/.test(all)&&/SKU Code/.test(all))return {kind:'label',data:parseRapid(items,lines,all)};
+  if(/SKU ID\s*\|\s*Description/.test(all)&&/AWB No/.test(all))return {kind:'label',data:parseFlipkart(items,lines,all)};
+  if(/Tax Invoice\/Bill of Supply/.test(all)&&/Order Number:/.test(all))return {kind:'amzinvoice',data:parseAmazonInvoice(items,lines,all)};
+  if(/Tax Invoice/.test(all)&&/Order Id:/.test(all))return {kind:'invoice'};
+  return {kind:'unknown',text:all.slice(0,400)};
+}
+/* Turn a file's pages into shipments. pages[i] = {items} ; returns [{pages:[i..], data|null, needsAI}] */
+function groupPages(pages){
+  const cls=pages.map(p=>classifyPage(p.items));const out=[];
+  for(let i=0;i<cls.length;i++){
+    const c=cls[i];
+    if(c.kind==='image'){
+      if(cls[i+1]&&cls[i+1].kind==='amzinvoice'){out.push({pages:[i],extra:[i+1],data:cls[i+1].data});i++;continue}
+      out.push({pages:[i],data:null,needsAI:true});continue;
+    }
+    if(c.kind==='label'){out.push({pages:[i],data:c.data});continue}
+    if(c.kind==='amzinvoice'){out.push({pages:[i],data:c.data});continue}
+    if(c.kind==='invoice'){ if(out.length)(out[out.length-1].extra=out[out.length-1].extra||[]).push(i); continue}
+    out.push({pages:[i],data:null,needsAI:true,unknown:true});
+  }
+  return out;
+}
+
+/* ===== APP ===== */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const lsGet=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}};
+const lsSet=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+if(window.pdfjsLib){try{pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'}catch(e){}}
+
+const BRANDS={
+  SS:{name:'Sanatan Stories',v:'--b-ss',re:/sanatan/i},
+  LWM:{name:'Learn What Matters',v:'--b-lwm',re:/learn\s*what\s*matters|\blwm\b/i},
+  TD:{name:'The Devotionist',v:'--b-td',re:/devotionist/i},
+  DS:{name:'The Daily Sadhana',v:'--b-ds',re:/daily\s*s[aā]dhan/i},
+  X:{name:'Unknown brand',v:'--b-x',re:/$^/}
+};
+const SEED=[
+ {id:'ss-gita-fu',brand:'SS',short:'Gita – Finally Understood',title:'Bhagavad Gita - Finally Understood',skus:['NEW-GITA'],codes:[]},
+ {id:'ss-gita-kids',brand:'SS',short:'Gita for Children',title:'Bhagavad Gita for Children – Simple Lessons, Stories & Activities',skus:['GITA-ONLY'],codes:[]},
+ {id:'ss-garbha',brand:'SS',short:'Garbha Gita',title:'Garbha Gita Finally Understood',skus:[],codes:[]},
+ {id:'ss-maha',brand:'SS',short:'Mahabharata for Children',title:'Mahabharata For Children – Illustrated Moral Story Book',skus:[],codes:[]},
+ {id:'ss-ram-maha',brand:'SS',short:'Ramayan + Mahabharat (2 books)',title:'Ramayan & Mahabharat for Children – Illustrated 2-Book Bundle',skus:[],codes:[]},
+ {id:'ss-ram',brand:'SS',short:'Ramayana for Children',title:'Ramayana For Children – Illustrated Moral Story Book',skus:['RAMAYAN-ONLY'],codes:[]},
+ {id:'ss-pack3',brand:'SS',short:'Sanatan Story Pack (3 books)',title:'Sanatan Story Pack – Ramayan, Mahabharat & Bhagavad Gita for Kids Illustrated Story Books Bundle Set of 3',skus:['KIDS-GITA-BUNDLE','SS-KIDS-EPIC-PACK-3-ENG'],codes:['9788199975903']},
+ {id:'ss-ess3d',brand:'SS',short:'Sanatan Story Essential Pack 3D',title:'Sanatan Story Essential Pack – 3D',skus:['SANATAN_STORY_E*'],codes:[]},
+ {id:'lwm-j2',brand:'LWM',short:'Learning Journey 2 (5 books)',title:'2 Powerful Learning Journey for Kids – Science & Entrepreneurship 5 Books',skus:[],codes:[]},
+ {id:'lwm-j3',brand:'LWM',short:'Learning Journey 3 (8 books)',title:'3 Powerful Learning Journey for Kids – Science, AI & Entrepreneurship 8 Books',skus:[],codes:[]},
+ {id:'lwm-ai',brand:'LWM',short:'AI for Kids (3 books)',title:'AI for Kids — 3-Book AI Literacy Series Cadet to Commander',skus:['AI-BOOK-LWM'],codes:[]},
+ {id:'lwm-sci',brand:'LWM',short:'Science Experiments',title:'Fun & Easy Science Experiments for Kids Home Experiments & QR Video Learning',skus:['LWM-SCIENCE-EXP-01'],codes:[]},
+ {id:'lwm-space',brand:'LWM',short:'Space Explorer Workbook',title:'The Ultimate Space Explorer Workbook - QR enabled learning',skus:[],codes:[]},
+ {id:'lwm-teen',brand:'LWM',short:'Young Hustler Teen (2 books)',title:'Young Hustler Teen Edition – 2 Workbooks Set Class 7–12',skus:[],codes:[]},
+ {id:'lwm-yh',brand:'LWM',short:'Young Hustlers Set (Level 1–4)',title:'Young Hustlers – The Kidpreneur Mastery Program 4 Levels Complete Set Level 1-4 Financial Literacy Entrepreneurship Workbook',skus:['YHCS-001','PU-ZUS5-N38I'],codes:[]},
+ {id:'td-bundle',brand:'TD',short:'Bible Companion Bundle (OT+NT)',title:'The Ultimate Bible Companion Bundle – Old & New Testament',skus:['DEV-BIBLE-COMP-OTNT-2'],codes:[]},
+ {id:'td-old',brand:'TD',short:'Old Testament',title:'Old Testament - Stories, Lessons and Reflections',skus:[],codes:[]},
+ {id:'td-new',brand:'TD',short:'New Testament',title:'New Testament - Stories, Lessons & Reflections',skus:[],codes:[]},
+ {id:'td-journal',brand:'TD',short:'Daily Devotion Journal',title:'Daily Devotion 5-minute spiritual journal',skus:[],codes:[]},
+ {id:'td-bigstory',brand:'TD',short:"Bible's One Big Story",title:"The Bible's One Big Story Illustrated Bible Book with Companion App",skus:[],codes:[]},
+ {id:'td-activity',brand:'TD',short:'Bible Activity Book (Kids)',title:'Bible learning activity book for children',skus:[],codes:[]},
+ {id:'ds-sadhana',brand:'DS',short:'Daily Sadhana',title:'Daily Sadhana - Find Your Calm in Just 5 Minutes a Day',skus:[],codes:[]},
+ {id:'ds-gift',brand:'DS',short:'Daily Sadhana Gift Box',title:'Daily Sadhana - Find Your Calm in Just 5 Minutes a Day - Premium Gift Box',skus:[],codes:[]},
+];
+const CAT_KEY='lvd.catalog.v1';
+let catalog=lsGet(CAT_KEY,null)||JSON.parse(JSON.stringify(SEED));
+// merge any new seed SKUs into a saved catalog
+for(const se of SEED){const e=catalog.find(c=>c.id===se.id);if(!e){catalog.push(JSON.parse(JSON.stringify(se)));continue}
+  for(const k of se.skus)if(!e.skus.includes(k))e.skus.push(k)}
+const saveCatalog=()=>lsSet(CAT_KEY,catalog);
+
+const S={files:[],ships:[],tab:'products',f:{brand:new Set(),courier:new Set(),platform:new Set(),pay:new Set(),q:''},
+  opt:{invoice:true,separators:true,skipDup:true,split:'product'},load:null,demo:false,thumbs:new Map(),packed:lsGet('lvd.packed',{}),ai:{running:false,done:0,total:0,ctl:null,msg:''}};
+
+/* ---------- matching ---------- */
+const STOP=new Set(['for','the','and','of','a','an','with','to','in','by','set','book','books','kids','children','–','-','|']);
+function norm(s){return String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[™®©]/g,'').toLowerCase()}
+function toks(s){return norm(s).split(/[^a-z0-9]+/).filter(t=>t&&t.length>1&&!STOP.has(t))}
+function titleScore(name,entry){
+  const lt=toks(name);if(!lt.length)return 0;
+  const et=toks(entry.title+' '+entry.short);const set=new Set(et);let hit=0;
+  lt.forEach((t,i)=>{ if(set.has(t))hit++; else if(i===lt.length-1&&t.length>=2&&et.some(e=>e.startsWith(t)))hit+=.8; else if(et.some(e=>e.length>4&&(e.startsWith(t)||t.startsWith(e))))hit+=.6;});
+  const a=hit/lt.length;
+  const tt=[...new Set(toks(entry.title))];const ls=new Set(lt);
+  const b=tt.length>=3?tt.filter(t=>ls.has(t)).length/tt.length:0;
+  return Math.max(a,b*.95);
+}
+function skuKey(s){return String(s||'').toUpperCase().replace(/\s+/g,'').replace(/(\.\.\.|…)$/,'*')}
+function findBySku(sku){
+  const k=skuKey(sku);if(!k)return null;const trunc=k.endsWith('*');const base=k.replace(/\*$/,'');
+  for(const e of catalog)for(const s of e.skus){const sk=skuKey(s);
+    if(sk===k)return e;
+    if(sk.endsWith('*')&&base.startsWith(sk.slice(0,-1)))return e;
+    if(trunc&&sk.replace(/\*$/,'').startsWith(base)&&base.length>=6)return e;}
+  for(const e of catalog)for(const c of (e.codes||[]))if(String(c).toUpperCase()===k)return e;
+  return null;
+}
+function bestByTitle(name,brandHint){
+  let best=null,bs=0,second=0;
+  for(const e of catalog){let s=titleScore(name,e);if(brandHint&&e.brand===brandHint)s+=.05;if(s>bs){second=bs;bs=s;best=e}else if(s>second)second=s}
+  return {e:best,score:bs,margin:bs-second};
+}
+function brandFromText(t){for(const k of ['SS','LWM','TD','DS'])if(BRANDS[k].re.test(t||''))return k;return null}
+
+function resolveShip(sh){
+  sh.flags=[];const d=sh.data;
+  if(!d){sh.kind='review';sh.items=[];sh.brand='X';sh.flags.push({lv:'bad',t:sh.aiError?('AI read nahi kar paya: '+sh.aiError):'Label image hai, text nahi. "AI se padho" dabao.'});return sh}
+  const hintBrand=brandFromText(d.shippedBy||'');
+  sh.items=(d.items||[]).map(it=>{
+    const o={sku:it.sku||'',name:it.name||'',qty:+it.qty||1,amount:+it.amount||0};
+    let e=(it.entryId&&catalog.find(c=>c.id===it.entryId))||findBySku(o.sku);
+    if(e){o.entry=e;o.how='sku';
+      if(o.name){const sc=titleScore(o.name,e);const b=bestByTitle(o.name,hintBrand);
+        if(sc<.34&&b.e&&b.e.id!==e.id&&b.score>.6){sh.flags.push({lv:'bad',t:`SKU ${o.sku} = "${e.short}", lekin label par naam "${o.name}" likha hai. Product galat ho sakta hai.`})}}
+    }else{
+      const b=bestByTitle(o.name,hintBrand);
+      if(b.e&&b.score>=.6&&b.margin>=.12){o.entry=b.e;o.how='title';sh.flags.push({lv:'warn',t:`SKU "${o.sku||'—'}" catalog me nahi. Naam se "${b.e.short}" mana. Catalog me SKU jod do.`,fix:{sku:o.sku,id:b.e.id}})}
+      else{sh.flags.push({lv:'bad',t:`Product pehchana nahi: ${o.sku||'(no SKU)'} · ${o.name||''}`,unknown:{sku:o.sku,name:o.name}})}
+    }
+    return o;});
+  if(!sh.items.length)sh.flags.push({lv:'bad',t:'Label par koi item nahi mila.'});
+  const brands=[...new Set(sh.items.filter(i=>i.entry).map(i=>i.entry.brand))];
+  sh.brand=brands[0]||hintBrand||brandFromText(sh.items.map(i=>i.name).join(' '))||'X';
+  if(brands.length>1)sh.flags.push({lv:'warn',t:'Ek order me alag-alag brand ke product hain.'});
+  if(hintBrand&&brands.length===1&&hintBrand!==brands[0])sh.flags.push({lv:'warn',t:`Label par seller "${d.shippedBy}" hai, product ${BRANDS[brands[0]].name} ka hai.`});
+  if(sh.ai&&sh.ai.confidence<.8)sh.flags.push({lv:'warn',t:'AI ne padha, confidence kam hai. Label ek baar dekh lo.'});
+  // merge same entry lines
+  const lines={};for(const i of sh.items){const k=i.entry?i.entry.id:'?'+skuKey(i.sku);lines[k]=(lines[k]||0)+i.qty}
+  const keys=Object.keys(lines).sort();
+  sh.totalQty=sh.items.reduce((a,i)=>a+i.qty,0);
+  sh.multi=keys.length>1;
+  sh.key=keys.map(k=>k+'×'+lines[k]).join('+');
+  sh.kind=sh.flags.some(f=>f.lv==='bad')?'review':(sh.multi?'multi':'single');
+  return sh;
+}
+function markDuplicates(){
+  const seen=new Map();
+  for(const sh of S.ships){sh.dup=null;const d=sh.data;if(!d)continue;
+    const k=(d.awb?'A:'+d.awb:'')||(d.orderId?'O:'+d.platform+d.orderId:'');if(!k)continue;
+    if(seen.has(k)){sh.dup=seen.get(k);}else seen.set(k,sh);}
+  for(const sh of S.ships)if(sh.dup){const o=sh.dup;sh.flags.push({lv:'warn',t:`Duplicate: yeh label "${fileName(o.fileId)}" page ${o.pages[0]+1} me bhi hai.`})}
+}
+function fileName(id){const f=S.files.find(x=>x.id===id);return f?f.name:'demo'}
+function reresolve(){S.ships.forEach(resolveShip);markDuplicates();render()}
+
+/* ---------- loading ---------- */
+let uid=0;
+async function addFiles(list){
+  if(!window.pdfjsLib){toast('PDF reader load nahi hua. Page reload karo.');return}
+  if(S.demo){S.demo=false;S.ships=[];S.files=[]}
+  for(const file of list){
+    if(!/pdf$/i.test(file.name)&&file.type!=='application/pdf')continue;
+    const id='f'+(++uid);const bytes=new Uint8Array(await file.arrayBuffer());
+    const rec={id,name:file.name,bytes,status:'Padh raha hoon…',size:file.size};S.files.push(rec);S.load={file:file.name,p:0,n:1,fi:list.indexOf(file)+1,fn:list.length};renderFiles();renderHero();
+    try{
+      const pdf=await pdfjsLib.getDocument({data:bytes.slice(),isEvalSupported:false}).promise;rec.pdf=pdf;rec.pages=pdf.numPages;
+      const pages=[];
+      for(let p=1;p<=pdf.numPages;p++){const pg=await pdf.getPage(p);const vp=pg.getViewport({scale:1});const tc=await pg.getTextContent();
+        pages.push({w:vp.width,h:vp.height,items:tc.items.map(i=>({s:i.str,x:i.transform[4],y:vp.height-i.transform[5],w:i.width}))});
+        if(p%4===0||p===pdf.numPages){rec.status=`Padh raha hoon… ${p}/${pdf.numPages}`;S.load.p=p;S.load.n=pdf.numPages;renderFiles();renderHero()}}
+      rec.sizes=pages.map(p=>[p.w,p.h]);
+      const groups=groupPages(pages);
+      const aiCache=lsGet('lvd.ai',{});
+      for(const g of groups){const sh={id:'s'+(++uid),fileId:id,pages:g.pages,extra:g.extra||[],data:g.data,needsAI:!!g.needsAI};
+        const ck=file.name+'|'+file.size+'|'+g.pages[0];sh.ck=ck;
+        if(sh.needsAI&&aiCache[ck]){applyAI(sh,aiCache[ck])}
+        S.ships.push(sh)}
+      const n=groups.length,ai=groups.filter(g=>g.needsAI).length;
+      rec.status=`${n} label`+(ai?` · ${ai} image (AI chahiye)`:'');
+    }catch(e){rec.status='Ye PDF nahi khula: '+(e.message||e)}
+    reresolve();
+  }
+  S.load=null;reresolve();
+}
+
+/* ---------- filters ---------- */
+function shipFacet(sh){const d=sh.data||{};return{brand:sh.brand,courier:d.courier||'Unknown',platform:d.platform||(sh.needsAI?'Image label':'Unknown'),pay:d.payment||'—'}}
+function passFilters(sh,skip){
+  const f=S.f,fc=shipFacet(sh);
+  for(const k of ['brand','courier','platform','pay'])if(k!==skip&&f[k].size&&!f[k].has(fc[k]))return false;
+  if(f.q&&skip!=='q'){const q=norm(f.q);const d=sh.data||{};
+    const hay=norm([d.awb,d.orderId,d.shippedBy,...sh.items.map(i=>i.sku+' '+i.name+' '+(i.entry?i.entry.short:''))].join(' '));
+    if(!hay.includes(q))return false}
+  return true;
+}
+const visible=()=>S.ships.filter(sh=>passFilters(sh));
+
+/* ---------- couriers (generic monogram badges) ---------- */
+const COURIER_META=[[/ekart|e-kart/i,'EK','--c-ekart'],[/blue\s*dart/i,'BD','--c-bluedart'],[/delhivery/i,'DL','--c-delhivery'],[/xpress\s*bees/i,'XB','--c-xb'],
+  [/amazon/i,'AMZ','--c-amz'],[/dtdc/i,'DT','--c-dtdc'],[/shadowfax/i,'SF','--c-sf'],[/ecom/i,'EE','--c-ecom'],[/india\s*post|speed\s*post/i,'IP','--c-ip']];
+function cMeta(name){for(const [re,c,v] of COURIER_META)if(re.test(name||''))return{code:c,v};const n=String(name||'?').replace(/[^A-Za-z]/g,'');return{code:(n.slice(0,2)||'?').toUpperCase(),v:'--c-x'}}
+function cBadge(name,lg){const m=cMeta(name);return `<span class="cb${lg?' lg':''}" style="--c:var(${m.v})" aria-hidden="true">${m.code}</span>`}
+function cPill(name,k){return `<span class="cpill">${cBadge(name)}${esc(name)}${k!=null?` <span class="k">${k}</span>`:''}</span>`}
+const ICON={
+  dl:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v8M4.5 6.5 8 10l3.5-3.5M2.5 13.5h11"/></svg>',
+  zip:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="1.5" width="11" height="13" rx="2"/><path d="M7 1.5v2h2v2H7v2h2v2H7"/></svg>',
+  spark:'<svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.6 4.4L14 7l-4.4 1.6L8 13l-1.6-4.4L2 7l4.4-1.6z"/></svg>',
+  up:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 11V3M4.5 6.5 8 3l3.5 3.5M2.5 13.5h11"/></svg>',
+  eye:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1.5 8s2.4-4.5 6.5-4.5S14.5 8 14.5 8 12.1 12.5 8 12.5 1.5 8 1.5 8z"/><circle cx="8" cy="8" r="2"/></svg>'
+};
+
+/* ---------- AI avatar ---------- */
+function botSVG(mode){
+  const eye=mode==='ok'?'#5ff0a6':mode==='alert'?'#ff7b84':'#5fe3ff';
+  const mouth=mode==='ok'?'<path d="M26 45 q6 5 12 0" stroke="#1b2a33" stroke-width="2.6" fill="none" stroke-linecap="round"/>'
+    :mode==='alert'?'<path d="M26 48 q6 -5 12 0" stroke="#1b2a33" stroke-width="2.6" fill="none" stroke-linecap="round"/>'
+    :'<rect x="27" y="45" width="10" height="2.6" rx="1.3" fill="#1b2a33"/>';
+  const brows=mode==='alert'?'<path d="M21 23 l8 3 M43 23 l-8 3" stroke="'+eye+'" stroke-width="2" stroke-linecap="round"/>':'';
+  return `<svg class="bot" viewBox="0 0 64 64" role="img" aria-label="AI checker">
+   <line x1="32" y1="5" x2="32" y2="13" stroke="#cfd5d0" stroke-width="2.6" stroke-linecap="round"/><circle class="ant" cx="32" cy="5" r="3.4" fill="#e2780f"/>
+   <rect x="9" y="13" width="46" height="42" rx="14" fill="#eef1ec"/><rect x="5" y="28" width="5" height="12" rx="2.5" fill="#cfd5d0"/><rect x="54" y="28" width="5" height="12" rx="2.5" fill="#cfd5d0"/>
+   <rect x="15" y="20" width="34" height="20" rx="8" fill="#1b2a33"/>${brows}
+   <circle class="eye" cx="25" cy="30" r="3.6" fill="${eye}"/><circle class="eye" cx="39" cy="30" r="3.6" fill="${eye}"/>
+   <rect class="beam" x="15" y="21" width="34" height="1.8" rx=".9" fill="#ff9a3c"/>
+   ${mouth}</svg>`;
+}
+function botState(){
+  const c=counts();const need=S.ships.filter(s=>s.needsAI&&!s.data).length;
+  if(S.load){const L=S.load;return{mode:'busy',h:`Label scan ho rahe hain…`,say:`File ${L.fi}/${L.fn}: <b>${esc(L.file)}</b> — page ${L.p}/${L.n}`,prog:L.n?L.p/L.n:0}}
+  if(S.ai.running)return{mode:'busy',h:'AI image label padh raha hai',say:`${S.ai.done}/${S.ai.total} label padhe. Har label se product, SKU, qty aur AWB nikal raha hoon.`,prog:S.ai.total?S.ai.done/S.ai.total:0}
+  if(!S.ships.length)return{mode:'idle',h:'Namaste! Labels daalo, main check karta hoon.',say:'Main har label ka SKU aur product naam aapke 4 brands ke catalog se milata hoon, galat ya shak wale label laal kar deta hoon, aur product-wise PDF bana deta hoon.'}
+  const top=groupsOf('single')[0];const ins=[];
+  ins.push({t:`${c.all} label check kiye`});
+  if(c.review)ins.push({t:`${c.review} me problem`,c:'bad'});else ins.push({t:'Koi problem nahi',c:'ok'});
+  if(c.dup)ins.push({t:`${c.dup} duplicate alag kiye`});
+  if(c.multi)ins.push({t:`${c.multi} multi-item order`});
+  if(top)ins.push({t:`Top: ${itemLabel(top.ships[0].items[0])} (${top.ships.length})`});
+  const cod=visible().reduce((a,s)=>a+((s.data&&s.data.payment==='COD'&&s.data.cod)||0),0);if(cod)ins.push({t:`COD ₹${cod.toLocaleString('en-IN')}`});
+  if(need)return{mode:'alert',h:`${need} label sirf image hain`,say:'Inme text nahi hai (jaise Amazon Shipping label). <b>AI se padho</b> dabao, main inhe bhi padh kar verify kar dunga. Label image aapke Claude account se Claude ko jayegi.',ins}
+  if(c.review)return{mode:'alert',h:`${c.review} label pack mat karo — pehle check karo`,say:'Laal labels me SKU/naam match nahi hua ya product catalog me nahi hai. <b>Check karo</b> tab me reason aur fix dono hai.',ins}
+  return{mode:'ok',h:'Sab label sahi hain. Pack karne ke liye ready!',say:'Product-wise PDF download karo. Har product ke pehle aur aakhri page par product aur courier ki details hongi.',ins}
+}
+function renderHero(){
+  const b=botState();const need=S.ships.filter(s=>s.needsAI&&!s.data).length;
+  $('#hero').innerHTML=`<div class="botwrap ${b.mode}">${botSVG(b.mode)}</div>
+   <div class="hero-text"><div class="who"><span class="live"></span>Sutra · AI label checker</div>
+    <h1>${b.h}</h1><div class="say">${b.say}</div>
+    ${b.prog!=null?`<div class="prog"><i style="width:${Math.round(b.prog*100)}%"></i></div>`:''}
+    ${b.ins?`<div class="insights">${b.ins.map(i=>`<span class="ins ${i.c||''}">${esc(i.t)}</span>`).join('')}</div>`:''}
+    ${S.ai.msg&&!S.ai.running?`<div class="say" style="color:#ffd2a6">${esc(S.ai.msg)}</div>`:''}</div>
+   <label class="dropz" id="drop" for="fileIn"><b>Label PDF yahan chhodo</b><small>RapidShyp · Shiprocket · Flipkart · Amazon — ek saath kai files</small>
+    <span class="row"><span class="btn primary">${ICON.up}PDF chuno</span>
+    ${S.ai.running?'<button class="btn ghost" type="button" id="aiStop">Roko</button>':need?`<button class="btn ghost" type="button" id="aiGo">${ICON.spark}AI se padho (${need})</button>`:''}</span>
+    <small>🔒 PDF aapke browser me hi padha jata hai</small></label>`;
+  bindDrop();
+}
+function bindDrop(){const drop=$('#drop');if(!drop)return;
+  ['dragenter','dragover'].forEach(t=>drop.addEventListener(t,e=>{e.preventDefault();drop.classList.add('over')}));
+  ['dragleave','drop'].forEach(t=>drop.addEventListener(t,e=>{e.preventDefault();drop.classList.remove('over')}));
+  drop.addEventListener('drop',e=>{e.stopPropagation();addFiles([...e.dataTransfer.files])});}
+
+/* ---------- render ---------- */
+function render(){renderHero();renderFiles();renderFilters();renderStats();renderSplit();renderTabs();renderView()}
+function softRender(){renderHero();renderStats();renderSplit();renderTabs();renderFilters();renderView()}
+function renderFiles(){
+  $('#fileCount').textContent=S.files.length?S.files.length+' file':'';
+  $('#fileList').innerHTML=(S.files.map(f=>`<div class="file"><span class="ic"></span><span class="n" title="${esc(f.name)}">${esc(f.name)}</span><span class="c">${esc(f.status||'')}</span><button class="x" data-rm="${f.id}" aria-label="Hatao" type="button">✕</button></div>`).join('')
+    +(S.demo?`<div class="file"><span class="ic"></span><span class="n">Example data</span><span class="c">Asli orders nahi</span><button class="x" data-rm="demo" type="button">✕</button></div>`:''))
+    ||'<span class="note">Abhi koi file nahi. Upar se PDF daalo.</span>';
+}
+function chipSet(el,key){
+  const counts={};S.ships.filter(sh=>passFilters(sh,key)).forEach(sh=>{const v=shipFacet(sh)[key];counts[v]=(counts[v]||0)+1});
+  const all=[...new Set([...Object.keys(counts),...S.f[key]])].sort((a,b)=>(counts[b]||0)-(counts[a]||0));
+  el.innerHTML=all.length?all.map(v=>{const lbl=key==='brand'?BRANDS[v].name:v;
+    const sw=key==='brand'?`<span class="bsw" style="background:var(${BRANDS[v].v})"></span>`:key==='courier'?cBadge(v):'';
+    return `<button type="button" class="chip ${sw?'':'plain'}" data-f="${key}" data-v="${esc(v)}" aria-pressed="${S.f[key].has(v)}">${sw}${esc(lbl)} <span class="k">${counts[v]||0}</span></button>`}).join(''):'<span class="note">—</span>';
+}
+function renderFilters(){chipSet($('#fBrand'),'brand');chipSet($('#fCourier'),'courier');chipSet($('#fPlatform'),'platform');chipSet($('#fPay'),'pay')}
+const packKey=sh=>{const d=sh.data||{};return d.awb||d.orderId||sh.id};
+function counts(){const v=visible();return{all:v.length,single:v.filter(s=>s.kind==='single').length,multi:v.filter(s=>s.kind==='multi').length,review:v.filter(s=>s.kind==='review').length,dup:v.filter(s=>s.dup).length,
+  ready:v.filter(s=>s.kind!=='review'&&!s.dup).length,packed:v.filter(s=>S.packed[packKey(s)]).length}}
+function renderStats(){const c=counts();
+  $('#stats').innerHTML=[
+    ['all','Total labels',c.all,'acc'],['products','Pack ke liye ready',c.ready,'ok'],['multi','Multi-item order',c.multi,''],
+    ['review','Check karo',c.review,c.review?'bad':''],['scan','Pack ho gaye',`${c.packed}`,'']
+  ].map(([t,l,v,cls])=>`<button type="button" class="stat ${cls}" data-tab="${t}"><span class="v">${v}</span><span class="l">${l}</span></button>`).join('');
+}
+function renderSplit(){
+  const v=visible().filter(s=>!(S.opt.skipDup&&s.dup));if(!v.length){$('#split').innerHTML='';return}
+  const cc={},bc={};v.forEach(s=>{const c=(s.data&&s.data.courier)||'Unknown';cc[c]=(cc[c]||0)+1;bc[s.brand]=(bc[s.brand]||0)+1});
+  const ce=Object.entries(cc).sort((a,b)=>b[1]-a[1]),be=Object.entries(bc).sort((a,b)=>b[1]-a[1]);const n=v.length;
+  $('#split').innerHTML=`<div class="splitbar"><div class="legend"><span class="flabel">Courier handover</span>${ce.map(([c,k])=>cPill(c,k)).join('')}</div>
+   <div class="bar" role="img" aria-label="Courier split">${ce.map(([c,k])=>`<i style="width:${100*k/n}%;background:var(${cMeta(c).v})" title="${esc(c)} ${k}"></i>`).join('')}</div>
+   <div class="legend"><span class="flabel">Brand</span>${be.map(([b,k])=>`<span class="cpill"><span class="bsw" style="background:var(${BRANDS[b].v});margin-left:5px"></span>${esc(BRANDS[b].name)} <span class="k">${k}</span></span>`).join('')}</div>
+   <div class="bar" role="img" aria-label="Brand split">${be.map(([b,k])=>`<i style="width:${100*k/n}%;background:var(${BRANDS[b].v})"></i>`).join('')}</div></div>`;
+}
+const TABS=[['products','Product-wise'],['multi','Multi-item'],['review','Check karo'],['all','Sab labels'],['pick','Picklist'],['scan','Scan & verify'],['catalog','Catalog']];
+function renderTabs(){const c=counts();const n={products:c.single,multi:c.multi,review:c.review,all:c.all};
+  $('#tabs').innerHTML=TABS.map(([k,l])=>`<button type="button" role="tab" class="tab" data-tab="${k}" aria-selected="${S.tab===k}">${l}${n[k]!=null?` <span class="cnt ${k==='review'&&n[k]?'bad':''}">${n[k]}</span>`:''}</button>`).join('');
+}
+function brandTag(b){const B=BRANDS[b]||BRANDS.X;return `<span class="brand" style="color:var(${B.v})"><span class="bsw" style="background:var(${B.v})"></span>${esc(B.name)}</span>`}
+function itemLabel(i){return i.entry?i.entry.short:(i.name||i.sku||'Unknown')}
+function groupsOf(kind){
+  const m=new Map();for(const sh of visible()){if(kind&&sh.kind!==kind)continue;if(S.opt.skipDup&&sh.dup)continue;
+    if(!m.has(sh.key))m.set(sh.key,[]);m.get(sh.key).push(sh)}
+  return [...m.entries()].map(([key,ships])=>({key,ships})).sort((a,b)=>b.ships.length-a.ships.length);
+}
+function thumbHTML(sh){if(S.demo||!sh||!sh.pages)return `<div class="thumb"><div class="ph">Example<br>label</div></div>`;
+  return `<div class="thumb"><img alt="Label preview" data-th="${sh.fileId}:${sh.pages[0]}" src="data:image/gif;base64,R0lGODlhAQABAAAAACw="><div class="ph" aria-hidden="true">…</div></div>`}
+function setLabel(kind){return {single:'single-product',multi:'multi-item',all:'filter wale',review:'check karo wale'}[kind]}
+function dlCenter(kind,n){
+  const sp=S.opt.split;const segs=[['product','Product'],['courier','Courier'],['brand','Brand']];
+  return `<div class="dlc"><div class="grp"><span class="flabel">Alag PDF kis hisaab se</span><div class="seg">${segs.map(([k,l])=>`<button type="button" data-split="${k}" aria-pressed="${sp===k}">${l}</button>`).join('')}</div></div>
+   <div class="grp"><button class="btn primary" type="button" data-zip="${kind}">${ICON.zip}Har ${sp==='product'?'product':sp==='courier'?'courier':'brand'} ka alag PDF (ZIP)</button>
+   <button class="btn" type="button" data-dl="${kind}">${ICON.dl}Sab ek PDF me (${n})</button></div><span class="sp"></span>
+   <div class="grp"><label class="toggle"><input type="checkbox" id="optSep" ${S.opt.separators?'checked':''}> Start + End detail page</label>
+   <label class="toggle"><input type="checkbox" id="optInv" ${S.opt.invoice?'checked':''}> Invoice page bhi</label>
+   <label class="toggle"><input type="checkbox" id="optDup" ${S.opt.skipDup?'checked':''}> Duplicate chhodo</label></div></div>`;
+}
+function listFor(kind){return visible().filter(s=>kind==='all'||s.kind===kind)}
+function renderView(){
+  const v=$('#view');
+  if(!S.ships.length){v.innerHTML=emptyHTML();return}
+  if(S.tab==='products'||S.tab==='multi'){
+    const kind=S.tab==='products'?'single':'multi';const gs=groupsOf(kind);const total=gs.reduce((a,g)=>a+g.ships.length,0);
+    v.innerHTML=dlCenter(kind,total)+(gs.length?`<div class="groups">${gs.map(g=>groupCard(g,kind)).join('')}</div>`:`<p class="note">Is filter me ${setLabel(kind)} label nahi hai.</p>`);
+  }else if(S.tab==='review'){
+    const bad=visible().filter(s=>s.kind==='review');const warn=visible().filter(s=>s.kind!=='review'&&s.flags.some(f=>f.lv==='warn'));
+    const unknown=S.ships.some(sh=>sh.flags.some(f=>f.unknown||f.fix));
+    v.innerHTML=(bad.length?`<div class="alertbox"><div class="t"><b>${bad.length} label pack mat karo</b><span class="note">Inka product pakka nahi hai. PDF alag nikal lo, theek karke hi pack karo.</span></div>
+       <button class="btn danger" type="button" data-dl="review">${ICON.dl}Check karo labels PDF (${bad.length})</button>
+       ${unknown?`<button class="btn" type="button" id="catAiFix2">${ICON.spark}AI se SKU pehchano</button>`:''}</div>`
+      :`<div class="alertbox okbox"><div class="t"><b>Koi laal label nahi</b><span class="note">Neeche sirf chhoti warnings hain (duplicate, naam se match).</span></div></div>`)
+      +`<div id="aiFixOut"></div>`
+      +(bad.length?`<p class="eyebrow" style="margin-top:14px">Laal — pack mat karo</p>`+shipTable(bad,true):'')
+      +(warn.length?`<p class="eyebrow" style="margin-top:16px"><span>Warning — ek baar dekh lo</span><button class="btn sm" type="button" data-dlw="1">${ICON.dl}Warning labels PDF (${warn.length})</button></p>`+shipTable(warn,true):'');
+  }else if(S.tab==='all'){
+    v.innerHTML=dlCenter('all',visible().length)+shipTable(visible(),false);
+  }else if(S.tab==='pick'){v.innerHTML=pickHTML()}
+  else if(S.tab==='scan'){v.innerHTML=scanHTML();setTimeout(()=>$('#scanIn')&&$('#scanIn').focus(),30)}
+  else if(S.tab==='catalog'){v.innerHTML=catalogHTML()}
+  hydrateThumbs();
+}
+function groupCard(g,kind){
+  const sh=g.ships[0];const bad=g.ships.some(s=>s.kind==='review');const warn=g.ships.filter(s=>s.flags.some(f=>f.lv==='warn')).length;
+  const cs={};g.ships.forEach(s=>{const c=(s.data||{}).courier||'?';cs[c]=(cs[c]||0)+1});
+  const units=g.ships.reduce((a,s)=>a+s.totalQty,0);const packed=g.ships.filter(s=>S.packed[packKey(s)]).length;
+  let title;
+  if(kind==='single'){const it=sh.items[0];title=`<div class="gtitle">${esc(itemLabel(it))}</div><div class="skuline">${esc([...new Set(g.ships.flatMap(s=>s.items.map(i=>i.sku)))].join(' · '))}</div>
+     <div class="gmeta"><span class="pill acc">Qty ${sh.totalQty} / order</span><span class="pill">${units} pcs</span>${packed?`<span class="pill ok">${packed} packed</span>`:''}${warn?`<span class="pill warn">${warn} check</span>`:''}</div>`}
+  else{const lines={};sh.items.forEach(i=>{const k=itemLabel(i);lines[k]=(lines[k]||0)+i.qty});
+    title=`<div class="combo">${Object.entries(lines).map(([k,q])=>`<div><span class="q">${q}×</span><span>${esc(k)}</span></div>`).join('')}</div>
+     <div class="gmeta"><span class="pill">${units} pcs</span>${warn?`<span class="pill warn">${warn} check</span>`:''}</div>`}
+  return `<article class="gcard ${bad?'has-bad':''}"><div class="gtop"><div class="stack">${g.ships.slice(0,3).map(thumbHTML).join('')}<span class="count">${g.ships.length}</span></div>
+    <div class="gbody">${brandTag(sh.brand)}${title}</div></div>
+    <div class="gfoot">${Object.entries(cs).sort((a,b)=>b[1]-a[1]).map(([c,k])=>cPill(c,k)).join('')}<span class="sp"></span>
+    <button class="btn sm" type="button" data-open="${sh.id}">${ICON.eye}Dekho</button><button class="btn sm dark" type="button" data-dlg="${esc(g.key)}" data-kind="${kind}">${ICON.dl}PDF</button></div></article>`;
+}
+function shipTable(list,showFix){
+  if(!list.length)return `<p class="note">Kuch nahi mila.</p>`;
+  return `<div class="tablewrap"><table><thead><tr><th>#</th><th>Brand</th><th>Items</th><th>Qty</th><th>Courier</th><th>AWB / Order</th><th>Status</th><th></th></tr></thead><tbody>${
+    list.map((sh,i)=>{const d=sh.data||{};const fl=sh.flags.map(f=>`<span class="flag ${f.lv}">${f.lv==='bad'?'✗':'!'} ${esc(f.t)}${showFix&&f.fix?` <button class="btn sm" type="button" data-fix="${esc(f.fix.sku)}" data-to="${f.fix.id}">SKU jodo</button>`:''}</span>`).join('');
+      const st=sh.kind==='review'?'<span class="pill bad">Check karo</span>':(sh.dup?'<span class="pill warn">Duplicate</span>':(S.packed[packKey(sh)]?'<span class="pill ok">Packed</span>':'<span class="pill ok">OK</span>'));
+      return `<tr class="clickable ${sh.kind==='review'?'badrow':''}" data-open="${sh.id}"><td class="num">${i+1}</td><td>${brandTag(sh.brand)}</td><td>${sh.items.map(it=>`<div>${esc(itemLabel(it))} <span class="skuline">${esc(it.sku)}</span></div>`).join('')||'<span class="note">—</span>'}${fl}</td>
+      <td class="num">${sh.totalQty||'—'}</td><td>${d.courier?cPill(d.courier):'—'}<div class="note">${esc(d.platform||'')}${d.payment?' · '+esc(d.payment):''}</div></td>
+      <td class="mono" style="font-size:12px">${esc(d.awb||'—')}<div class="note">${esc(d.orderId||'')}</div></td><td>${st}</td>
+      <td><div class="rowbtns">${sh.needsAI&&!sh.data?`<button class="btn sm" type="button" data-manual="${sh.id}">Haath se</button>`:''}${sh.pages&&!S.demo?`<button class="btn sm" type="button" data-one="${sh.id}" aria-label="Is label ka PDF">${ICON.dl}</button>`:''}</div></td></tr>`}).join('')}</tbody></table></div>`;
+}
+function pickHTML(){
+  const m={};for(const sh of visible()){if(S.opt.skipDup&&sh.dup)continue;for(const i of sh.items){const k=i.entry?i.entry.id:'?'+i.sku;
+    m[k]=m[k]||{label:itemLabel(i),brand:i.entry?i.entry.brand:'X',skus:new Set(),qty:0,orders:new Set(),c:{}};m[k].qty+=i.qty;m[k].skus.add(i.sku);m[k].orders.add(sh.id);const c=(sh.data||{}).courier||'?';m[k].c[c]=(m[k].c[c]||0)+i.qty}}
+  const rows=Object.values(m).sort((a,b)=>a.brand.localeCompare(b.brand)||b.qty-a.qty);const tot=rows.reduce((a,r)=>a+r.qty,0);
+  return `<div class="dlc"><span class="note">Godown se kitni books nikalni hain (filter ke hisaab se, duplicate chhod kar).</span><span class="sp"></span><button class="btn primary" type="button" id="pickCsv">${ICON.dl}Picklist CSV</button></div>
+  <div class="tablewrap"><table><thead><tr><th>Brand</th><th>Product</th><th>SKU</th><th>Courier</th><th style="text-align:right">Orders</th><th style="text-align:right">Pcs</th></tr></thead><tbody>
+  ${rows.map(r=>`<tr><td>${brandTag(r.brand)}</td><td><b>${esc(r.label)}</b></td><td class="skuline">${esc([...r.skus].join(', '))}</td><td><div class="gmeta">${Object.entries(r.c).map(([c,k])=>cPill(c,k)).join('')}</div></td><td class="num">${r.orders.size}</td><td class="num picktotal">${r.qty}</td></tr>`).join('')}
+  <tr><td colspan="5"><b>Total</b></td><td class="num picktotal">${tot}</td></tr></tbody></table></div>`;
+}
+function emptyHTML(){return `<section class="empty"><div>
+  <h2>Galat product ab bahar nahi jayega</h2>
+  <p>Saare label PDF ek saath daalo. Har label ka product, SKU, qty, brand aur courier nikalta hai, product-wise jamata hai, aur shak wale label laal kar deta hai.</p>
+  <ol class="flow"><li><div><b>Upload</b><span>RapidShyp / Shiprocket / Flipkart / Amazon ke label PDF.</span></div></li>
+  <li><div><b>Verify</b><span>SKU aur label par likha naam catalog se match. Mismatch, unknown SKU, duplicate turant dikhta hai.</span></div></li>
+  <li><div><b>Download</b><span>Har product ka alag PDF. Pehle aur aakhri page par product, brand, courier aur label count.</span></div></li>
+  <li><div><b>Scan &amp; pack</b><span>AWB scan karo, phir book. Galat book par laal screen aur beep.</span></div></li></ol>
+  <div class="toolbar" style="margin-top:16px"><label class="btn primary" for="fileIn">${ICON.up}PDF chuno</label><button class="btn" type="button" id="demoBtn">Example data dekho</button></div></div>
+  <div><div class="mock" aria-hidden="true"><div class="bc"></div><div class="ln" style="top:60px;width:60%"></div><div class="ln" style="top:76px;width:45%"></div><div class="ln" style="top:100px"></div><div class="ln" style="top:116px;width:70%"></div><div class="laser"></div></div>
+  <p class="eyebrow">Ye label format padhta hai</p><div class="formats">
+  <div class="fmt"><b>RapidShyp / Shiprocket</b><span>4×6 label · Item Name · SKU · Qty</span></div>
+  <div class="fmt"><b>Flipkart</b><span>Crop label ya A4 invoice+label</span></div>
+  <div class="fmt"><b>Amazon Easy Ship</b><span>Label + invoice page jodi me</span></div>
+  <div class="fmt"><b>Amazon Shipping (image)</b><span>AI se padha jata hai</span></div></div>
+  <p class="note" style="margin-top:12px">Catalog: ${catalog.length} product · ${catalog.reduce((a,e)=>a+e.skus.length,0)} SKU. Naya SKU "Catalog" tab me jodo.</p></div></section>`}
+
+/* ---------- thumbnails ---------- */
+let io=null;
+function hydrateThumbs(){
+  if(io)io.disconnect();
+  io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){io.unobserve(e.target);loadThumb(e.target)}}),{rootMargin:'200px'});
+  document.querySelectorAll('img[data-th]').forEach(im=>io.observe(im));
+}
+async function pageImage(fileId,page,scale,type){
+  const f=S.files.find(x=>x.id===fileId);if(!f||!f.pdf)return null;
+  const pg=await f.pdf.getPage(page+1);const vp=pg.getViewport({scale});
+  const c=document.createElement('canvas');c.width=Math.ceil(vp.width);c.height=Math.ceil(vp.height);
+  const ctx=c.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,c.width,c.height);
+  await pg.render({canvasContext:ctx,viewport:vp}).promise;
+  if(type==='blob')return await new Promise(r=>c.toBlob(r,'image/jpeg',.85));
+  return c.toDataURL('image/jpeg',.8);
+}
+async function loadThumb(img){
+  const k=img.dataset.th;const done=u=>{img.src=u;img.nextElementSibling&&img.nextElementSibling.remove()};
+  if(S.thumbs.has(k)){done(S.thumbs.get(k));return}
+  const [fid,p]=k.split(':');try{const f=S.files.find(x=>x.id===fid);const w=(f.sizes&&f.sizes[+p][0])||288;const url=await pageImage(fid,+p,Math.min(1,220/w),'url');
+    if(url){S.thumbs.set(k,url);done(url)}}catch(e){}
+}
+
+/* ---------- drawer ---------- */
+async function openShip(id){
+  const sh=S.ships.find(s=>s.id===id);if(!sh)return;const d=sh.data||{};
+  const pages=(sh.pages||[]).concat(sh.extra||[]);
+  $('#drawer').innerHTML=`<div class="drawer" id="dw"><div class="in" role="dialog" aria-label="Label detail">
+   <div style="display:flex;gap:10px;align-items:center"><h3 style="flex:1">${esc(sh.items.map(itemLabel).join(' + ')||'Label')}</h3><button class="btn sm" type="button" data-close>Band karo</button></div>
+   <div class="gmeta">${brandTag(sh.brand)}${d.courier?cPill(d.courier):''}</div>
+   ${sh.flags.map(f=>`<span class="flag ${f.lv}">${f.lv==='bad'?'✗':'!'} ${esc(f.t)}</span>`).join('')}
+   <dl class="kv"><dt>Platform</dt><dd>${esc(d.platform||'—')}</dd><dt>AWB</dt><dd class="mono">${esc(d.awb||'—')}</dd><dt>Order ID</dt><dd class="mono">${esc(d.orderId||'—')}</dd><dt>Payment</dt><dd>${esc(d.payment||'—')}${d.cod?' · ₹'+d.cod:''}</dd><dt>Seller on label</dt><dd>${esc(d.shippedBy||'—')}</dd><dt>File</dt><dd>${esc(fileName(sh.fileId))}, page ${pages.map(p=>p+1).join(', ')}</dd></dl>
+   <div class="tablewrap"><table><thead><tr><th>Label par naam</th><th>SKU</th><th>Qty</th><th>Catalog product</th></tr></thead><tbody>${sh.items.map(i=>`<tr><td>${esc(i.name||'—')}</td><td class="skuline">${esc(i.sku)}</td><td class="num">${i.qty}</td><td>${i.entry?esc(i.entry.short)+(i.how==='title'?' <span class="pill warn">naam se</span>':''):'<span class="pill bad">Unknown</span>'}</td></tr>`).join('')||'<tr><td colspan="4" class="note">Abhi padha nahi gaya</td></tr>'}</tbody></table></div>
+   <div class="toolbar">${sh.needsAI?`<button class="btn" type="button" data-manual="${sh.id}">Haath se item likho</button>`:''}${sh.pages&&!S.demo?`<button class="btn" type="button" data-one="${sh.id}">${ICON.dl}Is label ka PDF</button>`:''}</div>
+   <div class="pages" id="dwPages">${S.demo?'<p class="note">Example data me label image nahi hai.</p>':pages.map(()=>'<span class="note">Label load ho raha hai…</span>').join('')}</div></div></div>`;
+  if(!S.demo){const imgs=[];for(const p of pages){try{imgs.push(await pageImage(sh.fileId,p,1.4,'url'))}catch(e){imgs.push(null)}}
+    const box=$('#dwPages');if(box)box.innerHTML=imgs.map(u=>u?`<img alt="Label page" src="${u}">`:'').join('')}
+}
+
+/* ---------- PDF output ---------- */
+let downloadsNS=null;
+const pdfLibCache=new Map();
+function ascii(s){return norm(s).replace(/[–—]/g,'-').replace(/[^\x20-\x7e]/g,'').replace(/\s+/g,' ').trim()}
+function ascii2(s){return String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[–—]/g,'-').replace(/×/g,'x').replace(/₹/g,'Rs ').replace(/[™®©]/g,'').replace(/[^\x20-\x7e]/g,'').trim()}
+function comboTitle(sh){const lines={};sh.items.forEach(i=>{const k=itemLabel(i);lines[k]=(lines[k]||0)+i.qty});return Object.entries(lines).map(([k,q])=>`${q}x ${k}`).join(' + ')}
+/* split: product | courier | brand → [{title,kind,brand,ships}] */
+function buildGroups(list,split){
+  const m=new Map();
+  for(const sh of list){if(S.opt.skipDup&&sh.dup)continue;if(!sh.pages)continue;
+    const d=sh.data||{};let k,title;
+    if(split==='courier'){k=d.courier||'Unknown courier';title=k}
+    else if(split==='brand'){k=sh.brand;title=BRANDS[sh.brand].name}
+    else{ if(sh.kind==='review'&&!sh.items.length){k='review|unread';title='Check karo - label padha nahi gaya'}
+          else{k=sh.kind+'|'+sh.key;title=(sh.kind==='review'?'CHECK: ':'')+(sh.items.length?comboTitle(sh):'Unknown')}}
+    if(!m.has(k))m.set(k,{key:k,title,split,ships:[]});m.get(k).ships.push(sh)}
+  const rank={single:0,multi:1,review:2};
+  const gs=[...m.values()];
+  for(const g of gs){g.kind=g.ships[0].kind;g.brand=g.ships[0].brand;
+    g.ships.sort((a,b)=>split==='product'?String((a.data||{}).courier).localeCompare(String((b.data||{}).courier)):(rank[a.kind]-rank[b.kind]||a.key.localeCompare(b.key)||String((a.data||{}).courier).localeCompare(String((b.data||{}).courier))))}
+  gs.sort((a,b)=>split==='product'?(rank[a.kind]-rank[b.kind]||a.brand.localeCompare(b.brand)||b.ships.length-a.ships.length):b.ships.length-a.ships.length);
+  return gs;
+}
+function groupFacts(g){
+  const cs={},ps={},bs={},prod={};let pcs=0,cod=0,codN=0;
+  for(const s of g.ships){const d=s.data||{};cs[d.courier||'?']=(cs[d.courier||'?']||0)+1;ps[d.platform||'?']=(ps[d.platform||'?']||0)+1;bs[BRANDS[s.brand].name]=(bs[BRANDS[s.brand].name]||0)+1;pcs+=s.totalQty||0;
+    if(d.payment==='COD'){codN++;cod+=d.cod||0}for(const i of s.items){const k=itemLabel(i);prod[k]=(prod[k]||0)+i.qty}}
+  const ent=o=>Object.entries(o).sort((a,b)=>b[1]-a[1]);
+  return{cs:ent(cs),ps:ent(ps),bs:ent(bs),prod:ent(prod),pcs,cod,codN,skus:[...new Set(g.ships.flatMap(s=>s.items.map(i=>i.sku)).filter(Boolean))]};
+}
+function drawInfoPage(out,fonts,W,H,g,which,idx,total,next){
+  const {rgb}=PDFLib;const {bold,reg,mono}=fonts;const p=out.addPage([W,H]);
+  const s=Math.min(W/288,H/432);const m=16*s;let y=H;const maxW=W-2*m;const ink=rgb(0,0,0),grey=rgb(.38,.38,.38);
+  const put=(t,size,font,col,x)=>{y-=size;p.drawText(t,{x:x??m,y,size,font,color:col||ink});y-=size*.3};
+  const para=(t,size,font,col,maxLines)=>{const words=ascii2(t).split(' ');let cur='',n=0;
+    for(const w of words){const tr=cur?cur+' '+w:w;if(font.widthOfTextAtSize(tr,size)>maxW&&cur){if(maxLines&&n>=maxLines-1){put(cur+' ...',size,font,col);return}put(cur,size,font,col);n++;cur=w}else cur=tr}
+    if(cur)put(cur,size,font,col)};
+  const isStart=which==='START';const f=groupFacts(g);
+  // band
+  const bandH=30*s;p.drawRectangle({x:0,y:H-bandH,width:W,height:bandH,color:ink});
+  p.drawText(isStart?'START':'END',{x:m,y:H-bandH+9*s,size:15*s,font:bold,color:rgb(1,1,1)});
+  const bt=`BATCH ${idx+1} / ${total}`;p.drawText(bt,{x:W-m-mono.widthOfTextAtSize(bt,9*s),y:H-bandH+11*s,size:9*s,font:mono,color:rgb(1,1,1)});
+  y=H-bandH-10*s;
+  const kindTxt=g.split==='courier'?'COURIER BATCH':g.split==='brand'?'BRAND BATCH':g.kind==='multi'?'MULTI-ITEM ORDER':g.kind==='review'?'CHECK KARO - REVIEW':'SINGLE PRODUCT';
+  put(kindTxt+'  |  '+f.bs.map(b=>b[0].toUpperCase()).join(', '),8*s,bold,grey);y-=2*s;
+  para(g.title,(ascii2(g.title).length>40?15:19)*s,bold,ink,4);
+  if(g.split!=='product'&&f.prod.length){y-=2*s;f.prod.slice(0,5).forEach(([k,q])=>para(`${q} pcs  ${k}`,9*s,reg,ink,1));if(f.prod.length>5)put(`+${f.prod.length-5} aur product`,8*s,reg,grey)}
+  if(f.skus.length&&g.split==='product'){y-=1*s;para('SKU: '+f.skus.join(', '),8*s,mono,grey,2)}
+  y-=6*s;
+  // big count
+  const cnt=String(g.ships.length);put(cnt,54*s,bold);
+  y+=4*s;put(`label${g.ships.length>1?'s':''}  ·  ${f.pcs} pcs`+(f.codN?`  ·  COD ${f.codN}`:''),10*s,reg);
+  y-=6*s;p.drawLine({start:{x:m,y},end:{x:W-m,y},thickness:.8*s,color:grey});y-=4*s;
+  put('COURIER',7.5*s,bold,grey);
+  for(const [c,k] of f.cs.slice(0,6)){put(`${ascii2(c)}  -  ${k} label${k>1?'s':''}`,11*s,bold)}
+  put('PLATFORM: '+f.ps.map(([pf,k])=>`${ascii2(pf)} ${k}`).join(', '),7.5*s,reg,grey);
+  y-=4*s;
+  if(isStart){
+    para(`Pehla label agle page par hai. Is batch me ${g.ships.length} label hain, sab ${g.split==='courier'?'is courier':'is product'} ke.`,8.5*s,reg,ink,3);
+  }else{
+    para(`Yeh is batch ka AAKHRI label tha. ${g.ships.length} label gin lo.`,8.5*s,bold,ink,2);
+    if(next){y-=2*s;para('Agla batch: '+next,8*s,reg,grey,2)}
+    // AWB checklist
+    const awbs=g.ships.map(s=>packKey(s));const fs=6.5*s;const lh=fs*1.45;const colW=(W-2*m)/2;const room=Math.floor((y-m-10*s)/lh)*2;
+    if(room>=2){y-=4*s;put('AWB CHECKLIST',7*s,bold,grey);const top=y;const show=awbs.slice(0,Math.max(0,room-(awbs.length>room?1:0)));
+      show.forEach((a,i)=>{const col=i%2,row=Math.floor(i/2);const yy=top-(row+1)*lh;const x=m+col*colW;
+        p.drawRectangle({x,y:yy-.5*s,width:fs*.9,height:fs*.9,borderColor:grey,borderWidth:.6*s});
+        p.drawText(ascii2(a).slice(0,26),{x:x+fs*1.4,y:yy,size:fs,font:mono,color:ink})});
+      if(awbs.length>show.length){const yy=top-(Math.ceil(show.length/2)+1)*lh;p.drawText(`+${awbs.length-show.length} aur`,{x:m,y:yy,size:fs,font:reg,color:grey})}}
+  }
+  p.drawText(ascii2(`Label Verify Desk  ·  ${new Date().toLocaleString('en-IN')}`),{x:m,y:6*s,size:5.5*s,font:reg,color:grey});
+}
+async function buildPdf(groups){
+  const {PDFDocument,StandardFonts}=PDFLib;const out=await PDFDocument.create();
+  const fonts={bold:await out.embedFont(StandardFonts.HelveticaBold),reg:await out.embedFont(StandardFonts.Helvetica),mono:await out.embedFont(StandardFonts.Courier)};
+  let n=0;
+  for(let gi=0;gi<groups.length;gi++){const g=groups[gi];
+    const sh0=g.ships[0];const f0=S.files.find(f=>f.id===sh0.fileId);let [W,H]=(f0&&f0.sizes&&f0.sizes[sh0.pages[0]])||[288,432];
+    if(S.opt.separators)drawInfoPage(out,fonts,W,H,g,'START',gi,groups.length);
+    for(const sh of g.ships){
+      const f=S.files.find(x=>x.id===sh.fileId);if(!f)continue;
+      let src=pdfLibCache.get(f.id);if(!src){src=await PDFDocument.load(f.bytes,{ignoreEncryption:true});pdfLibCache.set(f.id,src)}
+      const idx=sh.pages.concat(S.opt.invoice?sh.extra:[]).sort((a,b)=>a-b);
+      const copied=await out.copyPages(src,idx);copied.forEach(p=>out.addPage(p));n++;
+    }
+    if(S.opt.separators){const last=g.ships[g.ships.length-1];const fl=S.files.find(f=>f.id===last.fileId);[W,H]=(fl&&fl.sizes&&fl.sizes[last.pages[0]])||[W,H];
+      drawInfoPage(out,fonts,W,H,g,'END',gi,groups.length,groups[gi+1]?groups[gi+1].title:'')}
+  }
+  return {bytes:await out.save(),n};
+}
+async function saveFile(name,data){
+  if(!downloadsNS)downloadsNS=await (window.claude?claude.use('downloads'):null);
+  if(!downloadsNS){toast('Is view me download allowed nahi hai. Artifact ko claude.ai me kholo.');return false}
+  try{await downloadsNS.save({filename:name,data});toast('Download ho gaya: '+name);return true}
+  catch(e){if(e&&e.code==='declined')toast('Download cancel kiya.');else toast('Download nahi hua ('+(e&&e.code||'error')+').');return false}
+}
+const slug=s=>ascii(s).replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,50)||'labels';
+const stamp=()=>{const d=new Date();return `${d.getDate()}-${d.getMonth()+1}_${String(d.getHours()).padStart(2,'0')}${String(d.getMinutes()).padStart(2,'0')}`};
+let busyDl=false;
+async function downloadShips(list,label,split){
+  if(S.demo){toast('Example data me PDF nahi hai. Apne label upload karo.');return}
+  if(busyDl)return;const groups=buildGroups(list,split||S.opt.split);if(!groups.length){toast('Download ke liye koi label nahi.');return}
+  busyDl=true;toast('PDF ban raha hai…');
+  try{const {bytes,n}=await buildPdf(groups);await saveFile(`${slug(label)}_${n}labels_${stamp()}.pdf`,bytes);
+    const bad=groups.flatMap(g=>g.ships).filter(s=>s.kind==='review').length;
+    if(bad&&!/check/i.test(label))setTimeout(()=>toast(`Dhyan do: isme ${bad} "Check karo" label bhi hain.`),2600);
+  }catch(e){toast('PDF nahi bana: '+(e.message||e))}finally{busyDl=false}
+}
+async function downloadZip(list,label){
+  if(S.demo){toast('Example data me PDF nahi hai. Apne label upload karo.');return}
+  if(!window.JSZip){toast('ZIP library load nahi hui. "Sab ek PDF me" use karo.');return}
+  if(busyDl)return;const groups=buildGroups(list,S.opt.split);if(!groups.length){toast('Download ke liye koi label nahi.');return}
+  busyDl=true;
+  try{const zip=new JSZip();let i=0;
+    for(const g of groups){i++;toast(`PDF ${i}/${groups.length} ban raha hai…`);
+      const {bytes}=await buildPdf([g]);
+      const cs=groupFacts(g).cs.map(c=>slug(c[0])).slice(0,2).join('+');
+      zip.file(`${String(i).padStart(2,'0')}_${slug(g.title)}${S.opt.split==='product'?'_'+cs:''}_${g.ships.length}labels.pdf`,bytes)}
+    const data=await zip.generateAsync({type:'uint8array'});
+    await saveFile(`${slug(label)}_${groups.length}pdfs_${stamp()}.zip`,data);
+  }catch(e){toast('ZIP nahi bana: '+(e.message||e))}finally{busyDl=false}
+}
+function pickCsv(){
+  const m={};for(const sh of visible()){if(S.opt.skipDup&&sh.dup)continue;for(const i of sh.items){const k=i.entry?i.entry.id:'?'+i.sku;m[k]=m[k]||{b:i.entry?BRANDS[i.entry.brand].name:'Unknown',p:itemLabel(i),s:new Set(),q:0,o:0};m[k].q+=i.qty;m[k].o++;m[k].s.add(i.sku)}}
+  const q=s=>'"'+String(s).replace(/"/g,'""')+'"';
+  saveFile('picklist_'+stamp()+'.csv','Brand,Product,SKU,Orders,Pcs\n'+Object.values(m).map(r=>[r.b,r.p,[...r.s].join(' / '),r.o,r.q].map(q).join(',')).join('\n'));
+}
+
+/* ---------- scan & verify ---------- */
+let scan={sh:null,got:{},log:[]};
+function scanHTML(){
+  const sh=scan.sh;let verdict;
+  if(!sh)verdict=`<div class="verdict ${scan.last==='bad'?'bad':'wait'}" id="verdict"><div class="botwrap ${scan.last==='bad'?'alert':'busy'}">${botSVG(scan.last==='bad'?'alert':'busy')}</div><div class="vbody"><span class="note">Step 1</span><div class="big">${scan.last==='bad'?'Ye label list me nahi mila':'Label ka AWB / Order ID scan karo'}</div><span class="note">${scan.lastMsg?esc(scan.lastMsg):'Barcode scanner keyboard jaisa type karta hai. Haath se likh kar Enter bhi chalega.'}</span></div></div>`;
+  else{const need=needOf(sh);const done=Object.entries(need).every(([k,q])=>(scan.got[k]||0)>=q);const mode=done?'ok':(scan.last==='bad'?'alert':'busy');
+    verdict=`<div class="verdict ${done?'ok':(scan.last==='bad'?'bad':'wait')}" id="verdict"><div class="botwrap ${mode}">${botSVG(mode)}</div><div class="vbody">
+     <span class="gmeta">${(sh.data||{}).courier?cPill(sh.data.courier):''}<span class="mono note">${esc(packKey(sh))}</span>${brandTag(sh.brand)}</span>
+     <div class="big">${done?'✓ Sahi hai, pack karo':(scan.last==='bad'?'✗ Galat book! Is box me nahi jayegi':'Ab book scan karo')}</div>
+     ${scan.lastMsg?`<div>${esc(scan.lastMsg)}</div>`:''}
+     <div class="need">${Object.entries(need).map(([k,q])=>{const e=catalog.find(c=>c.id===k);const g=scan.got[k]||0;return `<div class="${g>=q?'done':''}"><span>${esc(e?e.short:k)}</span><span class="q">${g}/${q}</span></div>`}).join('')}</div>
+     <div class="toolbar"><button class="btn sm" type="button" id="scanManual">Haath se OK (book check kar li)</button><button class="btn sm" type="button" id="scanReset">Naya label</button></div></div></div>`}
+  return `<div class="scanbox"><div style="display:flex;flex-direction:column;gap:12px;min-width:0">
+   <input class="scanin" id="scanIn" autocomplete="off" placeholder="${sh?'Book ka SKU / ISBN barcode':'AWB / Order ID'}" aria-label="Scan input">
+   ${verdict}</div>
+   <div class="panel"><p class="eyebrow"><span>Aaj ka log</span><span>${counts().packed} packed</span></p><div class="log">${scan.log.slice(-40).reverse().map(l=>`<div><span class="t">${l.t}</span><span style="color:var(${l.ok?'--ok':'--bad'})">${l.ok?'✓':'✗'}</span><span>${esc(l.m)}</span></div>`).join('')||'<span class="note">Abhi kuch scan nahi hua.</span>'}</div>
+   <p class="note">Book ka barcode (ISBN) Catalog tab me "Barcode" column me daal do, phir scan se match hoga. Amazon Easy Ship label par Order ID type karo.</p></div></div>`;
+}
+function needOf(sh){const n={};sh.items.forEach(i=>{const k=i.entry?i.entry.id:'?'+i.sku;n[k]=(n[k]||0)+i.qty});return n}
+let actx=null;function beep(ok){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();const o=actx.createOscillator(),g=actx.createGain();o.frequency.value=ok?880:180;o.type=ok?'sine':'square';g.gain.value=.12;o.connect(g);g.connect(actx.destination);o.start();o.stop(actx.currentTime+(ok?.12:.45))}catch(e){}}
+function logScan(ok,m){scan.log.push({t:new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'}),ok,m})}
+function doScan(raw){
+  const v=String(raw||'').trim().replace(/^#/,'');if(!v)return;const V=v.toUpperCase();
+  const findShip=()=>S.ships.find(s=>{const d=s.data||{};return [d.awb,d.orderId,(d.orderId||'').replace(/^#/,'')].some(x=>x&&String(x).toUpperCase()===V)});
+  if(!scan.sh){const sh=findShip();
+    if(!sh){scan.last='bad';scan.lastMsg=`"${v}" kisi label me nahi mila.`;beep(false);logScan(false,'Label nahi mila: '+v);renderView();return}
+    scan={...scan,sh,got:{},last:'',lastMsg:''};
+    if(sh.kind==='review'){scan.last='bad';scan.lastMsg='Is label me problem hai: '+(sh.flags[0]||{}).t;beep(false)}
+    else if(S.packed[packKey(sh)])scan.lastMsg='Dhyan do: ye label pehle hi pack ho chuka hai!';
+    renderView();return}
+  const other=findShip();if(other&&other!==scan.sh){scan={...scan,sh:other,got:{},last:'',lastMsg:''};renderView();return}
+  const e=findBySku(v);const need=needOf(scan.sh);
+  if(e&&need[e.id]!=null&&(scan.got[e.id]||0)<need[e.id]){scan.got[e.id]=(scan.got[e.id]||0)+1;scan.last='ok';scan.lastMsg=e.short+' ✓';beep(true);
+    const done=Object.entries(need).every(([k,q])=>(scan.got[k]||0)>=q);
+    if(done){S.packed[packKey(scan.sh)]=Date.now();lsSet('lvd.packed',S.packed);logScan(true,packKey(scan.sh)+' · '+scan.sh.items.map(itemLabel).join(' + '))}}
+  else{scan.last='bad';beep(false);scan.lastMsg=e?(need[e.id]!=null?`${e.short} pehle hi poori ho gayi`:`${e.short} is order me nahi hai`):`"${v}" catalog me nahi mila`;logScan(false,packKey(scan.sh)+' · galat scan: '+(e?e.short:v))}
+  renderStats();renderView();
+}
+
+/* ---------- catalog ---------- */
+function catalogHTML(){
+  return `<div class="dlc"><span class="note" style="flex:1;min-width:240px">SKU aur barcode yahan jodo, comma se alag. Kata hua SKU ke liye end me * lagao (jaise SANATAN_STORY_E*). Ye list isi browser me save rehti hai.</span>
+  <button class="btn sm" type="button" id="catAdd">+ Product</button><button class="btn sm" type="button" id="catAiFix">${ICON.spark}AI: unknown SKU pehchano</button><button class="btn sm" type="button" id="catReset">Default catalog</button></div>
+  <div id="aiFixOut"></div>
+  <div class="tablewrap" style="margin-top:12px"><table><thead><tr><th style="min-width:130px">Brand</th><th style="min-width:210px">Product (short name)</th><th style="min-width:200px">SKU codes</th><th style="min-width:150px">Barcode / ISBN</th><th></th></tr></thead><tbody>
+  ${catalog.map((e,i)=>`<tr><td><select data-ci="${i}" data-k="brand" aria-label="Brand">${['SS','LWM','TD','DS'].map(b=>`<option value="${b}" ${e.brand===b?'selected':''}>${BRANDS[b].name}</option>`).join('')}</select></td>
+   <td><input data-ci="${i}" data-k="short" value="${esc(e.short)}" aria-label="Product name"><div class="note" style="margin-top:3px">${esc(e.title)}</div></td>
+   <td><input class="mono" data-ci="${i}" data-k="skus" value="${esc(e.skus.join(', '))}" aria-label="SKU"></td>
+   <td><input class="mono" data-ci="${i}" data-k="codes" value="${esc((e.codes||[]).join(', '))}" aria-label="Barcode"></td>
+   <td><button class="x" type="button" data-cdel="${i}" aria-label="Delete">✕</button></td></tr>`).join('')}</tbody></table></div>`;
+}
+/* ---------- AI ---------- */
+let sampleNS=null,sampleTried=false;
+async function getSample(){if(!sampleTried){sampleTried=true;try{sampleNS=window.claude?await claude.use('sample'):null}catch(e){sampleNS=null}}return sampleNS}
+function renderAI(){renderHero()}
+function applyAI(sh,r){
+  const items=(r.items||[]).filter(i=>i&&(i.sku||i.name)).map(i=>({sku:String(i.sku||'').trim(),name:String(i.name||'').trim(),qty:+i.qty||1,amount:0,entryId:i.entryId}));
+  sh.ai={confidence:+r.confidence||0};
+  sh.data={format:'ai',platform:r.platform||'Amazon Shipping (image)',courier:r.courier||'Amazon Shipping',awb:String(r.awb||'').replace(/\s/g,''),orderId:String(r.orderId||'').trim(),payment:/cod/i.test(r.payment||'')?'COD':(/prepaid/i.test(r.payment||'')?'Prepaid':''),shippedBy:r.seller||'',items};
+  if(!items.length){sh.data=null;sh.aiError='item nahi dikha'}
+}
+async function runAI(){
+  const sample=await getSample();
+  if(!sample){S.ai.msg='AI is view me available nahi hai. Artifact ko claude.ai me kholo, ya label par "Haath se item likho" use karo.';renderAI();return}
+  let lim=null;try{lim=await sample.limits()}catch(e){}
+  if(!lim||!lim.images){S.ai.msg='Is view se image AI ko nahi bhej sakte.';renderAI();return}
+  const per=Math.max(1,Math.min(4,lim.images.maxCount||1));
+  const todo=S.ships.filter(s=>s.needsAI&&!s.data);
+  const ctl=new AbortController();S.ai={running:true,done:0,total:todo.length,ctl,msg:''};renderAI();
+  const skuList=catalog.map(e=>`${e.skus.join('/')||'(no sku)'} = ${e.short} [${BRANDS[e.brand].name}]`).join('\n');
+  const cache=lsGet('lvd.ai',{});
+  for(let i=0;i<todo.length&&!ctl.signal.aborted;i+=per){
+    const batch=todo.slice(i,i+per);
+    try{
+      const imgs=[];for(const sh of batch){const f=S.files.find(x=>x.id===sh.fileId);const w=(f.sizes&&f.sizes[sh.pages[0]][0])||288;imgs.push(await pageImage(sh.fileId,sh.pages[0],Math.min(3,820/w),'blob'))}
+      const prompt=`You are reading ${batch.length} Indian e-commerce shipping label image(s), in order. For EACH image return one object, in the same order, in a JSON array. No other text.
+Object shape: {"awb": string, "orderId": string (invoice id / order id, keep any # sign), "courier": string (e.g. "Amazon Shipping","Delhivery","Ekart","BlueDart"), "platform": string (who generated label, e.g. "Amazon Shipping","Shiprocket","RapidShyp"), "payment": "COD"|"Prepaid"|"", "seller": string (the "Ordered From"/"Shipped By"/seller name), "items": [{"sku": string, "name": string, "qty": number}], "confidence": number 0-1}.
+Rules: SKU is usually the code in brackets before the item title, e.g. "(NEW-GITA) Bhagavad Gita..." -> sku "NEW-GITA". Copy SKU exactly as printed. qty defaults to 1 if not printed. If text is unreadable, give empty items and low confidence. Never invent items.
+Known catalog SKUs for reference (only to help you read; still copy what is printed):
+${skuList}`;
+      const res=await sample.json(prompt,{images:imgs,signal:ctl.signal,modelTier:'default'});
+      const arr=Array.isArray(res)?res:(res&&Array.isArray(res.labels)?res.labels:[res]);
+      batch.forEach((sh,k)=>{const r=arr[k];if(r){applyAI(sh,r);if(sh.data){cache[sh.ck]=r}}else{sh.aiError='jawab nahi aaya'}});
+      lsSet('lvd.ai',cache);
+    }catch(e){
+      if(e&&e.code==='cancelled')break;
+      if(['not_granted','sampling_disabled','images_unavailable','capability_disabled','not_declared'].includes(e&&e.code)){S.ai.msg='AI ki permission nahi mili. Label par "Haath se item likho" use karo.';break}
+      if(e&&e.code==='rate_limited'){S.ai.msg='AI limit aa gayi. Thodi der baad dobara dabao.';break}
+      batch.forEach(sh=>sh.aiError=(e&&e.code)||'error');
+    }
+    S.ai.done=Math.min(todo.length,i+batch.length);reresolve();
+  }
+  const left=S.ships.filter(s=>s.needsAI&&!s.data).length;
+  S.ai.running=false;if(!S.ai.msg)S.ai.msg=left?`${left} label AI nahi padh paya. "Check karo" tab me dekho.`:'Sab image label padh liye. "Check karo" tab ek baar dekh lo.';reresolve();
+}
+async function aiFixUnknown(){
+  const out=$('#aiFixOut');const unk=[];const seen=new Set();
+  for(const sh of S.ships)for(const f of sh.flags){const u=f.unknown||f.fix;if(u&&!seen.has(u.sku+'|'+(u.name||''))){seen.add(u.sku+'|'+(u.name||''));unk.push({sku:u.sku,name:u.name||(sh.items.find(i=>i.sku===u.sku)||{}).name||''})}}
+  if(!unk.length){out.innerHTML='<p class="note">Koi unknown SKU nahi hai.</p>';return}
+  const sample=await getSample();if(!sample){out.innerHTML='<p class="note">AI is view me available nahi hai.</p>';return}
+  out.innerHTML='<p class="note">AI soch raha hai…</p>';
+  const prompt=`Match each unknown label item to one catalog product id, or null if no good match. Reply ONLY a JSON array of {"sku":string,"id":string|null,"why":string (max 8 words)}.
+Catalog:\n${catalog.map(e=>`${e.id}: ${e.title} [${BRANDS[e.brand].name}] skus=${e.skus.join('/')}`).join('\n')}
+Unknown items:\n${unk.map(u=>`sku="${u.sku}" name="${u.name}"`).join('\n')}`;
+  try{const res=await sample.json(prompt,{modelTier:'quick'});const arr=Array.isArray(res)?res:[];
+    out.innerHTML=`<div class="tablewrap"><table><thead><tr><th>Label SKU</th><th>AI match</th><th>Kyun</th><th></th></tr></thead><tbody>${arr.map(r=>{const e=catalog.find(c=>c.id===r.id);
+      return `<tr><td class="skuline">${esc(r.sku)}</td><td>${e?esc(e.short)+' · '+esc(BRANDS[e.brand].name):'<span class="note">Match nahi</span>'}</td><td class="note">${esc(r.why||'')}</td><td>${e&&r.sku?`<button class="btn sm" type="button" data-fix="${esc(r.sku)}" data-to="${e.id}">SKU jodo</button>`:''}</td></tr>`}).join('')}</tbody></table></div>`;
+  }catch(e){out.innerHTML=`<p class="note">AI jawab nahi de paya (${esc(e&&e.code||'error')}).</p>`}
+}
+function addSku(sku,id){const e=catalog.find(c=>c.id===id);if(!e||!sku)return;const k=skuKey(sku);if(!e.skus.some(s=>skuKey(s)===k))e.skus.push(k);saveCatalog();reresolve();toast(`${k} → ${e.short} jod diya`)}
+
+/* ---------- demo ---------- */
+function loadDemo(){
+  S.demo=true;S.files=[];S.ships=[];
+  const mk=(courier,platform,pay,items,seller)=>({id:'s'+(++uid),fileId:'demo',pages:null,extra:[],data:{platform,courier,payment:pay,awb:'DEMO'+(100000+uid),orderId:'#EX'+uid,shippedBy:seller,items}});
+  const it=(sku,name,qty=1)=>({sku,name,qty,amount:0});
+  for(let k=0;k<7;k++)S.ships.push(mk('Ekart','RapidShyp',k%2?'COD':'Prepaid',[it('GITA-ONLY','Bhagavad Gita for Children – Simpl')],'SanatanStories'));
+  for(let k=0;k<3;k++)S.ships.push(mk('Delhivery','Shiprocket','COD',[it('AI-BOOK-LWM','AI for Kids — 3-Book AI Literacy Se')],'LearnWhatMatters'));
+  for(let k=0;k<4;k++)S.ships.push(mk('Ekart','Flipkart','Prepaid',[it('SS-KIDS-EPIC-PACK-3-ENG','Sanatan Story Pack for Kids - Ramayan')],''));
+  S.ships.push(mk('Ekart','RapidShyp','COD',[it('GITA-ONLY','Bhagavad Gita for Children',5)],'SanatanStories'));
+  S.ships.push(mk('Ekart','RapidShyp','COD',[it('RAMAYAN-ONLY','Ramayana For Children – Illustra'),it('GITA-ONLY','Bhagavad Gita for Children – S')],'SanatanStories'));
+  S.ships.push(mk('BlueDart','RapidShyp','Prepaid',[it('SANATAN_STORY_E...','Sanatan Story Essential Pack – 3D'),it('NEW-GITA','Bhagavad Gita - Finally Understood')],'SanatanStories'));
+  S.ships.push(mk('Amazon Shipping','Amazon','Prepaid',[it('PU-ZUS5-N38I','Young Hustlers – Financial Literacy Workbook')],''));
+  S.ships.push(mk('Ekart','RapidShyp','COD',[it('NEW-GITA','Old Testament - Stories, Lessons')],'TheDevotionist'));
+  S.ships.push(mk('Xpressbees','Shiprocket','COD',[it('BIBLE-OT-01','Old Testament - Stories, Lessons and')],'TheDevotionist'));
+  S.ships.push(mk('Delhivery','Shiprocket','Prepaid',[it('DS-GIFT-XYZ','Daily Sadhana - Premium Gift Box')],'The Daily Sadhana'));
+  reresolve();toast('Example data load hua. Ye asli orders nahi hain.');
+}
+
+/* ---------- events ---------- */
+let toastT=null;function toast(m){$('#toastHost').innerHTML=`<div class="toast" role="status">${esc(m)}</div>`;clearTimeout(toastT);toastT=setTimeout(()=>{$('#toastHost').innerHTML=''},3200)}
+$('#fileIn').addEventListener('change',e=>{addFiles([...e.target.files]);e.target.value=''});
+document.addEventListener('dragover',e=>e.preventDefault());document.addEventListener('drop',e=>{e.preventDefault();if(e.dataTransfer&&e.dataTransfer.files.length)addFiles([...e.dataTransfer.files])});
+$('#q').addEventListener('input',e=>{S.f.q=e.target.value;renderFilters();renderStats();renderTabs();renderView()});
+$('#clearF').addEventListener('click',()=>{for(const k of ['brand','courier','platform','pay'])S.f[k].clear();S.f.q='';$('#q').value='';render()});
+document.addEventListener('click',e=>{
+  if(e.target.id==='dw'){$('#drawer').innerHTML='';return}
+  const t=e.target.closest('button,[data-open],label');if(!t)return;
+  if(t.dataset.f){const s=S.f[t.dataset.f];s.has(t.dataset.v)?s.delete(t.dataset.v):s.add(t.dataset.v);render();return}
+  if(t.dataset.tab){S.tab=t.dataset.tab;renderTabs();renderView();return}
+  if(t.dataset.rm){if(t.dataset.rm==='demo'){S.demo=false;S.ships=[]}else{S.files=S.files.filter(f=>f.id!==t.dataset.rm);S.ships=S.ships.filter(s=>s.fileId!==t.dataset.rm);pdfLibCache.delete(t.dataset.rm)}reresolve();return}
+  if(t.dataset.open&&!e.target.closest('[data-fix],[data-one],[data-manual]')){openShip(t.dataset.open);return}
+  if(t.hasAttribute('data-close')||t.id==='dw'){$('#drawer').innerHTML='';return}
+  if(t.dataset.split){S.opt.split=t.dataset.split;renderView();return}
+  if(t.dataset.dl){const kind=t.dataset.dl;downloadShips(listFor(kind),{all:'filtered-labels',single:'single-product',multi:'multi-item',review:'check-karo'}[kind],kind==='review'?'product':undefined);return}
+  if(t.dataset.zip){const kind=t.dataset.zip;downloadZip(listFor(kind),{all:'all',single:'product-wise',multi:'multi-item'}[kind]+'-'+S.opt.split);return}
+  if(t.dataset.dlw){downloadShips(visible().filter(s=>s.kind!=='review'&&s.flags.some(f=>f.lv==='warn')),'warning-labels','product');return}
+  if(t.dataset.one){const sh=S.ships.find(s=>s.id===t.dataset.one);if(sh){const dup=S.opt.skipDup;S.opt.skipDup=false;downloadShips([sh],'label-'+packKey(sh),'product').finally(()=>{S.opt.skipDup=dup})}return}
+  if(t.dataset.dlg){const ships=visible().filter(s=>s.kind===t.dataset.kind&&s.key===t.dataset.dlg);downloadShips(ships,itemLabel(ships[0].items[0])+(t.dataset.kind==='single'?'-x'+ships[0].totalQty:'-combo'),'product');return}
+  if(t.dataset.fix){addSku(t.dataset.fix,t.dataset.to);return}
+  if(t.dataset.cdel){catalog.splice(+t.dataset.cdel,1);saveCatalog();reresolve();return}
+  if(t.dataset.manual){manualEntry(t.dataset.manual);return}
+  switch(t.id){
+    case 'demoBtn':loadDemo();break;
+    case 'aiGo':runAI();break;
+    case 'aiStop':S.ai.ctl&&S.ai.ctl.abort();break;
+    case 'aiDismiss':S.ai.msg='';renderAI();break;
+    case 'pickCsv':pickCsv();break;
+    case 'catAdd':catalog.push({id:'c'+Date.now(),brand:'SS',short:'Naya product',title:'',skus:[],codes:[]});saveCatalog();renderView();break;
+    case 'catReset':catalog=JSON.parse(JSON.stringify(SEED));saveCatalog();reresolve();break;
+    case 'catAiFix':case 'catAiFix2':aiFixUnknown();break;
+    case 'scanReset':scan={...scan,sh:null,got:{},last:'',lastMsg:''};renderView();break;
+    case 'scanManual':if(scan.sh){S.packed[packKey(scan.sh)]=Date.now();lsSet('lvd.packed',S.packed);logScan(true,packKey(scan.sh)+' · haath se OK');scan={...scan,sh:null,got:{},last:'',lastMsg:''};renderStats();renderView()}break;
+  }
+});
+document.addEventListener('change',e=>{
+  const t=e.target;
+  if(t.id==='optInv'){S.opt.invoice=t.checked}
+  if(t.id==='optSep'){S.opt.separators=t.checked}
+  if(t.id==='optDup'){S.opt.skipDup=t.checked;softRender()}
+  if(t.dataset.ci!=null){const e2=catalog[+t.dataset.ci];const k=t.dataset.k;
+    if(k==='skus'||k==='codes')e2[k]=t.value.split(',').map(s=>s.trim()).filter(Boolean);else e2[k]=t.value;
+    if(k==='short'&&!e2.title)e2.title=t.value;saveCatalog();S.ships.forEach(resolveShip);markDuplicates();renderHero();renderStats();renderTabs();renderFilters()}
+});
+document.addEventListener('keydown',e=>{
+  if(e.target.id==='scanIn'&&e.key==='Enter'){e.preventDefault();const v=e.target.value;e.target.value='';doScan(v);setTimeout(()=>$('#scanIn')&&$('#scanIn').focus(),10)}
+  if(e.key==='Escape'&&$('#dw'))$('#drawer').innerHTML='';
+});
+function manualEntry(id){
+  const sh=S.ships.find(s=>s.id===id);if(!sh)return;
+  $('#drawer').innerHTML=`<div class="drawer" id="dw"><div class="in"><div style="display:flex;gap:10px;align-items:center"><h3 style="flex:1">Label ka item haath se likho</h3><button class="btn sm" type="button" data-close>Band karo</button></div>
+   <p class="note">Label image dekh kar product chuno. AWB scan-verify ke liye zaroori hai.</p>
+   <label class="note" for="mAwb">AWB</label><input class="search mono" id="mAwb">
+   <label class="note" for="mProd">Product</label><select class="search" id="mProd">${catalog.map(e=>`<option value="${e.id}">${esc(BRANDS[e.brand].name)} · ${esc(e.short)}</option>`).join('')}</select>
+   <label class="note" for="mQty">Qty</label><input class="search mono" id="mQty" type="number" min="1" value="1">
+   <div><button class="btn primary" type="button" id="mSave">Save</button></div><div class="pages" id="dwPages"><span class="note">Label load ho raha hai…</span></div></div></div>`;
+  $('#mSave').onclick=()=>{const e=catalog.find(c=>c.id===$('#mProd').value);
+    applyAI(sh,{awb:$('#mAwb').value,courier:'Amazon Shipping',platform:'Image label (manual)',items:[{sku:(e.skus[0]||'').replace(/\*$/,''),entryId:e.id,name:e.short,qty:+$('#mQty').value||1}],confidence:1});
+    $('#drawer').innerHTML='';reresolve();toast('Save ho gaya');};
+  pageImage(sh.fileId,sh.pages[0],1.4,'url').then(u=>{const b=$('#dwPages');if(b&&u)b.innerHTML=`<img alt="Label" src="${u}">`}).catch(()=>{});
+}
+render();
+
+</script>
+
+</body></html>
